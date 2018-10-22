@@ -1,5 +1,7 @@
 package io.github.amaan75;
 
+import org.jetbrains.annotations.NotNull;
+
 public class CricketGame {
 
     public static void main(String[] args) {
@@ -13,7 +15,7 @@ public class CricketGame {
         startInning(Team.getTeam2());
     }
 
-  static   void startInning(Team team) {
+    static void startInning(@NotNull Team team) {
         int ballNumber = 0;
         while (!team.isTeamOut()) {
             int res = MatchOps.ball();

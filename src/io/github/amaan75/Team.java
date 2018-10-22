@@ -1,5 +1,6 @@
 package io.github.amaan75;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,17 +24,6 @@ public class Team {
     //this is the currentPlayer Number which got out.
     private short currentPlayer = 0;
 
-    //method used to set a player as out
-    public void setPlayerOut() {
-        //set this player to out and
-        playersArray[currentPlayer++] = true;
-        if (currentPlayer == 11) {
-            teamOut = true;
-        }
-    }
-
-
-
 
     //there can only be two teams at any moment in a match
     private Team() {
@@ -42,9 +32,9 @@ public class Team {
 
 
     private void initPlayers() {
-        playersArray = new boolean[11];
+        playerList = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
-            playersArray[i] = false;
+            playerList.add(new Player.Builder((short) i).build());
         }
     }
 
