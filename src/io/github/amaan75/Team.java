@@ -25,6 +25,17 @@ public class Team {
     private short currentPlayer = 0;
 
 
+    public Player getCurrentPlayer(int index) {
+        if (index > playerList.size() - 1 || index < 0) {
+            throw new IndexOutOfBoundsException("the index is wrong");
+        }
+        return playerList.get(index);
+    }
+
+    public int getCurrentPlayerAndRemove() {
+        return currentPlayer++;
+    }
+
     //there can only be two teams at any moment in a match
     private Team() {
         initPlayers();
@@ -40,7 +51,11 @@ public class Team {
 
     @Override
     public String toString() {
-        return Arrays.toString(playersArray);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Player player : playerList) {
+            stringBuilder.append(player);
+        }
+        return stringBuilder.toString();
     }
 
     private int runs = 0;
@@ -49,13 +64,6 @@ public class Team {
         runs += value;
     }
 
-//    public boolean
-
-    public boolean[] getPlayersArray() {
-        //returning a clone, this way the only way to modify
-        // the getPlayersArray is using a Team Instance.
-        return playersArray.clone();
-    }
 
     public static Team getTeam1() {
         if (team1 == null) team1 = new Team();
@@ -78,5 +86,10 @@ public class Team {
 
     public int getRuns() {
         return runs;
+    }
+
+
+    public void declareTeamOut() {
+        teamOut = true;
     }
 }

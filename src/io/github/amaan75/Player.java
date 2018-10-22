@@ -40,6 +40,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "{" + id + " " + runs + " " + out + "}";
+        return "{Player:" + id + " out:" + out + "}";
     }
 }

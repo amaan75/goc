@@ -5,6 +5,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class MatchOps {
 
+    //this field will hold the index of last player number who will bat,
+    //since a player can't bat alone in cricket
+    private final static int LAST_PLAYER = 9;
     //cached because this will be used very often
     private static Random rnd = ThreadLocalRandom.current();
 
@@ -19,6 +22,15 @@ class MatchOps {
     static int ball() {
         //bound = 8 because it is exclusive
         return rnd.nextInt(8);
+    }
+
+    static void playerOut(Team team) {
+        int currPlayerIndex = team.getCurrentPlayerAndRemove();
+        System.out.println("CURRENT PLAYER NUMBERS" + currPlayerIndex);
+        team.getCurrentPlayer(currPlayerIndex).setPlayerOut();
+        if (currPlayerIndex == LAST_PLAYER) {
+            team.declareTeamOut();
+        }
     }
 
 
