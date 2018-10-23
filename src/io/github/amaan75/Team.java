@@ -1,7 +1,6 @@
 package io.github.amaan75;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Team {
@@ -12,9 +11,7 @@ public class Team {
 
     private static Team team2;
 
-    //true means player is out, false means player is not out
-    private boolean playersArray[];
-
+    // This is the list of players in this team.
     private List<Player> playerList;
 
     //variable to hold the status of the
@@ -24,6 +21,11 @@ public class Team {
     //this is the currentPlayer Number which got out.
     private short currentPlayer = 0;
 
+    // runs for this team
+    private int runs = 0;
+
+    //this is a variable to store team name
+    private String teamName;
 
     public Player getCurrentPlayer(int index) {
         if (index > playerList.size() - 1 || index < 0) {
@@ -37,7 +39,8 @@ public class Team {
     }
 
     //there can only be two teams at any moment in a match
-    private Team() {
+    private Team(String teamName) {
+        this.teamName = teamName;
         initPlayers();
     }
 
@@ -53,12 +56,11 @@ public class Team {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Player player : playerList) {
-            stringBuilder.append(player);
+            stringBuilder.append(player);//.append("\n");
         }
         return stringBuilder.toString();
     }
 
-    private int runs = 0;
 
     public void addRun(int value) {
         runs += value;
@@ -66,12 +68,12 @@ public class Team {
 
 
     public static Team getTeam1() {
-        if (team1 == null) team1 = new Team();
+        if (team1 == null) team1 = new Team("Team 1");
         return team1;
     }
 
     public static Team getTeam2() {
-        if (team2 == null) team2 = new Team();
+        if (team2 == null) team2 = new Team("Team 2");
         return team2;
     }
 
@@ -88,8 +90,20 @@ public class Team {
         return runs;
     }
 
-
     public void declareTeamOut() {
         teamOut = true;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+
+    static class Builder {
+
+        Builder() {
+
+        }
+
     }
 }
