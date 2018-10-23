@@ -6,7 +6,8 @@ public class CricketGame {
         int numberOfMatches = 2;
         if (args.length != 0) {
             numberOfMatches = Integer.parseInt(args[0]);
-        }
+        } else
+            System.out.println("NO COMMAND LINE ARGS FOUND, USING 2 MATCHES FOR DEFAULT");
         for (int i = 1; i <= numberOfMatches; i++)
             new MatchController(
                     Team.getTeam1(),
