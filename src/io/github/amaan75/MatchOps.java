@@ -1,5 +1,8 @@
 package io.github.amaan75;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,7 +28,7 @@ class MatchOps {
         return rnd.nextInt(8);
     }
 
-    static void playerOut(Team team) {
+    static void playerOut(@NotNull Team team) {
         int currPlayerIndex = team.getCurrentPlayerAndRemove();
 //        System.out.println("CURRENT PLAYER NUMBER: " + currPlayerIndex);
         team.getCurrentPlayer(currPlayerIndex).setPlayerOut();
@@ -36,7 +39,7 @@ class MatchOps {
     }
 
 
-    static void declareWinner(Team team1, Team team2) {
+    static void declareWinner(@NotNull Team team1, @NotNull Team team2) {
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
         if (run1 > run2)
