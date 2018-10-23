@@ -98,6 +98,9 @@ public class Team {
         return teamName;
     }
 
+    public int getPlayerRemainingCount() {
+        return 11 - (currentPlayer + 1);
+    }
 
 //    static class Builder {
 //

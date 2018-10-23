@@ -11,8 +11,6 @@ public class MatchController {
 
     private void playGame(Team team1, Team team2, Innings innings1, Innings innings2) {
         System.out.println("************************BEGIN MATCH**************************");
-        Team.refreshInstances();
-        Innings.InningsBuilder.refreshInstances();
         startInning(
                 team1,
                 innings1,
@@ -26,16 +24,11 @@ public class MatchController {
 
         System.out.println("TEAM 1 RUNS ARE:" + team1.getRuns());
         System.out.println("TEAM 2 RUNS ARE:" + team2.getRuns());
-        int run1 = team1.getRuns();
-        int run2 = team2.getRuns();
-        if (run1 > run2)
-            System.out.println("Team 1 wins by " + (run1 - run2) + " runs");
-        else if (run1 == run2)
-            System.out.println("This match was a draw");
-        else
-            System.out.println("Team 2 wins by " + (run2 - run1) + " runs");
+        MatchOps.declareWinner(team1, team2);
 
         System.out.println("************************END MATCH**************************\n\n\n");
+        Team.refreshInstances();
+        Innings.InningsBuilder.refreshInstances();
     }
 
 
@@ -54,7 +47,7 @@ public class MatchController {
         }
 
         System.out.println("Finished Innings");
-        System.out.println("Runs for " + team.getTeamName() + " are:" + team.getRuns()+"\n\n\n");
+        System.out.println("Runs for " + team.getTeamName() + " are:" + team.getRuns() + "\n\n\n");
     }
 
 }

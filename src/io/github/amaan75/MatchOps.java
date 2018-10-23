@@ -36,4 +36,17 @@ class MatchOps {
     }
 
 
+    static void declareWinner(Team team1, Team team2) {
+        int run1 = team1.getRuns();
+        int run2 = team2.getRuns();
+        if (run1 > run2)
+            System.out.println("Team 1 wins by " + (run1 - run2) + " runs");
+        else if (run1 == run2)
+            System.out.println("This match was a draw");
+        else {
+//            System.out.println("Team 2 wins by " + (run2 - run1) + " runs");
+            System.out.println("Team 2 won by " + team2.getPlayerRemainingCount() + " wickets");
+        }
+    }
+
 }
