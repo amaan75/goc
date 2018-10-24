@@ -27,9 +27,11 @@ class MatchOps {
         return rnd.nextInt(8);
     }
 
+    /**
+     * Method to set a player out.
+     */
     static void playerOut(@NotNull Team team) {
         int currPlayerIndex = team.getCurrentPlayerAndRemove();
-//        System.out.println("CURRENT PLAYER NUMBER: " + currPlayerIndex);
         team.getCurrentPlayer(currPlayerIndex).setPlayerOut();
         System.out.println("Runs For " + team.getTeamName() + " are:" + team.getRuns());
         if (currPlayerIndex == LAST_PLAYER) {
@@ -37,7 +39,9 @@ class MatchOps {
         }
     }
 
-
+    /**
+     * Method to declare the winner.
+     */
     static void declareWinner(@NotNull Team team1, @NotNull Team team2) {
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
@@ -46,7 +50,6 @@ class MatchOps {
         else if (run1 == run2)
             System.out.println("This match was a draw");
         else {
-//            System.out.println("Team 2 wins by " + (run2 - run1) + " runs");
             System.out.println("Team 2 won by " + team2.getPlayerRemainingCount() + " wickets");
         }
     }
