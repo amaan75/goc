@@ -49,7 +49,6 @@ public class MatchController {
         }
 
         System.out.println("Finished Innings");
-        DecimalFormat df = new DecimalFormat("#.#");
         int overs = inning.getBall() / 6;
         int numberOfOverBalls = inning.getBall() - (overs * 6);
 //        System.out.println("number of balls:" + inning.getBall());
