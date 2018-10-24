@@ -1,6 +1,6 @@
 package io.github.amaan75;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
@@ -11,9 +11,7 @@ public class Team {
 
     private static Team team2;
 
-    //true means player is out, false means player is not out
-    private boolean playersArray[];
-
+    // This is the list of players in this team.
     private List<Player> playerList;
 
     //variable to hold the status of the
@@ -23,57 +21,59 @@ public class Team {
     //this is the currentPlayer Number which got out.
     private short currentPlayer = 0;
 
-    //method used to set a player as out
-    public void setPlayerOut() {
-        //set this player to out and
-        playersArray[currentPlayer++] = true;
-        if (currentPlayer == 11) {
-            teamOut = true;
+    // runs for this team
+    private int runs = 0;
+
+    //this is a variable to store team name
+    private String teamName;
+
+    public Player getCurrentPlayer(int index) {
+        if (index > playerList.size() - 1 || index < 0) {
+            throw new IndexOutOfBoundsException("the index is wrong");
         }
+        return playerList.get(index);
     }
 
-
-
+    public int getCurrentPlayerAndRemove() {
+        return currentPlayer++;
+    }
 
     //there can only be two teams at any moment in a match
-    private Team() {
+    private Team(String teamName) {
+        this.teamName = teamName;
         initPlayers();
     }
 
 
     private void initPlayers() {
-        playersArray = new boolean[11];
+        playerList = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
-            playersArray[i] = false;
+            playerList.add(new Player.Builder((short) i).build());
         }
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(playersArray);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Player player : playerList) {
+            stringBuilder.append(player);//.append("\n");
+        }
+        return stringBuilder.toString();
     }
 
-    private int runs = 0;
 
     public void addRun(int value) {
         runs += value;
     }
 
-//    public boolean
-
-    public boolean[] getPlayersArray() {
-        //returning a clone, this way the only way to modify
-        // the getPlayersArray is using a Team Instance.
-        return playersArray.clone();
-    }
 
     public static Team getTeam1() {
-        if (team1 == null) team1 = new Team();
+        if (team1 == null) team1 = new Team("Team 1");
         return team1;
     }
 
     public static Team getTeam2() {
-        if (team2 == null) team2 = new Team();
+        if (team2 == null) team2 = new Team("Team 2");
         return team2;
     }
 
@@ -89,4 +89,24 @@ public class Team {
     public int getRuns() {
         return runs;
     }
+
+    public void declareTeamOut() {
+        teamOut = true;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public int getPlayerRemainingCount() {
+        return 11 - (currentPlayer + 1);
+    }
+
+//    static class Builder {
+//
+//        Builder() {
+//
+//        }
+//
+//    }
 }
