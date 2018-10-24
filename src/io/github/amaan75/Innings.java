@@ -24,27 +24,45 @@ public class Innings {
         return inningName;
     }
 
-    static class InningsBuilder {
+//    static class InningsBuilder {
+//
+//        static Innings firstInning;
+//
+//        static Innings secondInning;
+//
+//        public static Innings getFirstInning() {
+//            if (firstInning == null) firstInning = new Innings("First");
+//            return firstInning;
+//        }
+//
+//        public static Innings getSecondInning() {
+//            if (secondInning == null) secondInning = new Innings("Second");
+//            return secondInning;
+//        }
+//
+//        public static void refreshInstances() {
+//            firstInning = null;
+//            secondInning = null;
+//        }
+//    }
 
-        static Innings firstInning;
+    enum InningsEnum {
+        FIRST_INNING("FIRST"),
 
-        static Innings secondInning;
+        SECOND_INNING("SECOND");
 
-        public static Innings getFirstInning() {
-            if (firstInning == null) firstInning = new Innings("First");
-            return firstInning;
+
+        String inningName;
+
+        InningsEnum(String name) {
+            this.inningName = name;
         }
 
-        public static Innings getSecondInning() {
-            if (secondInning == null) secondInning = new Innings("Second");
-            return secondInning;
+
+        Innings getCurrentInning() {
+            return new Innings(this.inningName);
         }
 
-        public static void refreshInstances() {
-            firstInning = null;
-            secondInning = null;
-        }
     }
-
 
 }

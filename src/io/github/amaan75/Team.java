@@ -102,11 +102,20 @@ public class Team {
         return 11 - (currentPlayer + 1);
     }
 
-//    static class Builder {
-//
-//        Builder() {
-//
-//        }
-//
-//    }
+
+    enum TeamEnum {
+        TEAM_1("TEAM 1"),
+        TEAM_2("TEAM 2");
+
+
+        private String teamName;
+
+        TeamEnum(String teamName) {
+            this.teamName = teamName;
+        }
+
+        Team getCurrentTeam() {
+            return new Team(this.teamName);
+        }
+    }
 }

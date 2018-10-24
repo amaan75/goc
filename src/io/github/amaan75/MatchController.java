@@ -29,8 +29,8 @@ public class MatchController {
         MatchOps.declareWinner(team1, team2);
 
         System.out.println("************************END MATCH**************************\n\n\n");
-        Team.refreshInstances();
-        Innings.InningsBuilder.refreshInstances();
+//        Team.refreshInstances();
+//        Innings.InningsBuilder.refreshInstances();
     }
 
 
@@ -51,7 +51,8 @@ public class MatchController {
         System.out.println("Finished Innings");
         int overs = inning.getBall() / 6;
         int numberOfOverBalls = inning.getBall() - (overs * 6);
-//        System.out.println("number of balls:" + inning.getBall());
+//        System.out.println("number of balls:" + inning.getBall());ok
+
         System.out.println("Overs Used by " + team.getTeamName() +
                 " are:" + overs + " overs and " + numberOfOverBalls + " balls");
         System.out.println("Runs for " + team.getTeamName() + " are:" + team.getRuns() + "\n\n\n");
