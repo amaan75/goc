@@ -9,15 +9,18 @@ public class CricketGame {
             System.out.println("COMMAND LINE ARGUMENT FOUND, RUNNING " + numberOfMatches + " matches");
         } else
             System.out.println("NO COMMAND LINE ARGS FOUND, USING 2 MATCHES FOR DEFAULT");
-        for (int i = 1; i <= numberOfMatches; i++)
-            new MatchController(
-                    Team.getTeam1(),
-                    Team.getTeam2(),
-                    Innings.InningsBuilder.getFirstInning(),
-                    Innings.InningsBuilder.getSecondInning()
-            );
-
+        start(numberOfMatches);
     }
 
+
+    static void start(int numberOfMatches) {
+        MatchController matchController =
+                new MatchController(
+                     numberOfMatches
+                );
+
+        matchController.playGame(numberOfMatches);
+
+    }
 
 }

@@ -2,49 +2,55 @@ package io.github.amaan75;
 
 public class Innings {
 
-    static final int TOTAL_BALLS = 20 * 6;
-
-    private int ball = 0;
+    private int currentBall = 0;
 
     private String inningName;
 
-    private Innings(String inningName) {
+    private int inningsNumber;
+
+    Innings(String inningName, int inningsNumber) {
         this.inningName = inningName;
+        this.inningsNumber = inningsNumber;
+
     }
 
     void increaseBallCount() {
-        ball++;
+        currentBall++;
     }
 
-    public int getBall() {
-        return ball;
+    public int getCurrentBall() {
+        return currentBall;
     }
 
     public String getInningName() {
         return inningName;
     }
 
-    static class InningsBuilder {
-
-        static Innings firstInning;
-
-        static Innings secondInning;
-
-        public static Innings getFirstInning() {
-            if (firstInning == null) firstInning = new Innings("First");
-            return firstInning;
-        }
-
-        public static Innings getSecondInning() {
-            if (secondInning == null) secondInning = new Innings("Second");
-            return secondInning;
-        }
-
-        public static void refreshInstances() {
-            firstInning = null;
-            secondInning = null;
-        }
+    public int getInningsNumber() {
+        return inningsNumber;
     }
+
+//    static class InningsBuilder {
+//
+//        static Innings firstInning;
+//
+//        static Innings secondInning;
+//
+//        public static Innings getFirstInning() {
+//            if (firstInning == null) firstInning = new Innings("First");
+//            return firstInning;
+//        }
+//
+//        public static Innings getSecondInning() {
+//            if (secondInning == null) secondInning = new Innings("Second");
+//            return secondInning;
+//        }
+//
+//        public static void refreshInstances() {
+//            firstInning = null;
+//            secondInning = null;
+//        }
+//    }
 
 
 }

@@ -2,59 +2,74 @@ package io.github.amaan75;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
-
+/**
+ * The match controller will controller will take to teams
+ * and then the teams will play a bunch of matches with each other
+ */
 public class MatchController {
 
+    private Team team1;
+    private Team team2;
+    private int matchCounter = 1;
+    private int totalMatchLimit = 0;
+    private Match match;
 
-    MatchController(Team team1, Team team2, Innings innings1, Innings innings2) {
-        playGame(team1, team2, innings1, innings2);
+//    /**
+//     * The match controller will control the match play between the two teams
+//     *
+//     * @param team1 {@link Team} Takes a team instance that will play with each other
+//     * @param team2 {@link Team} aslo takes a team instance that will play with each other
+//     */
+//    MatchController(Team team1, Team team2) {
+//        this.team1 = team1;
+//        this.team2 = team2;
+//    }
+
+    public MatchController(int numberOfMatches) {
+        totalMatchLimit = numberOfMatches;
+
     }
 
-    private void playGame(Team team1, Team team2, Innings innings1, Innings innings2) {
-        System.out.println("************************BEGIN MATCH**************************");
-        startInning(
-                team1,
-                innings1,
-                Integer.MAX_VALUE
-        );
-        startInning(
-                team2,
-                innings2,
-                team1.getRuns()
-        );
+    /**
+     *
+     */
+    void playGame(int numberOfMatches) {
+        match = new Match(new Team("Australia"), new Team("India"));
+        match.playGame(matchCounter);
 
-        System.out.println("TEAM 1 RUNS ARE:" + team1.getRuns());
-        System.out.println("TEAM 2 RUNS ARE:" + team2.getRuns());
-        MatchOps.declareWinner(team1, team2);
 
-        System.out.println("************************END MATCH**************************\n\n\n");
-        Team.refreshInstances();
-        Innings.InningsBuilder.refreshInstances();
     }
 
+//    private void playGame(Team team1, Team team2, Innings innings1, Innings innings2) {
+//        System.out.println("************************BEGIN MATCH**************************");
+//        startInning(
+//                team1,
+//                innings1,
+//                Integer.MAX_VALUE
+//        );
+//        startInning(
+//                team2,
+//                innings2,
+//                team1.getRuns()
+//        );
+//
+//        System.out.println("TEAM 1 RUNS ARE:" + team1.getRuns());
+//        System.out.println("TEAM 2 RUNS ARE:" + team2.getRuns());
+//        MatchOps.declareWinner(team1, team2);
+//
+//        System.out.println("************************END MATCH**************************\n\n\n");
+//    }
 
-    static void startInning(@NotNull Team team, Innings inning, int runs) {
-        System.out.println("Starting " + inning.getInningName() + " Inning");
-        System.out.println(team.getTeamName() + " plays: ");
-        while (!team.isTeamOut() &&
-                inning.getBall() < Innings.TOTAL_BALLS &&
-                team.getRuns() < runs) {
-            int res = MatchOps.ball();
-            inning.increaseBallCount();
-            team.addRun(res);
-            if (res > 6) {
-                MatchOps.playerOut(team);
-            }
-        }
 
-        System.out.println("Finished Innings");
-        int overs = inning.getBall() / 6;
-        int numberOfOverBalls = inning.getBall() - (overs * 6);
-//        System.out.println("number of balls:" + inning.getBall());
-        System.out.println("Overs Used by " + team.getTeamName() +
-                " are:" + overs + " overs and " + numberOfOverBalls + " balls");
-        System.out.println("Runs for " + team.getTeamName() + " are:" + team.getRuns() + "\n\n\n");
-    }
+
+//
+//        System.out.println("Finished Innings");
+//    int overs = inning.getCurrentBall() / 6;
+//    int numberOfOverBalls = inning.getCurrentBall() - (overs * 6);
+////        System.out.println("number of balls:" + inning.getCurrentBall());
+//        System.out.println("Overs Used by "+team.getTeamName()+
+//                " are:"+overs +" overs and "+numberOfOverBalls +" balls");
+//        System.out.println("Runs for "+team.getTeamName()+" are:"+team.getRuns()+"\n\n\n");
+//}
 
 }

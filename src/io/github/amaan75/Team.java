@@ -3,13 +3,13 @@ package io.github.amaan75;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class Describes a team and its state when its currently
+ * playing in a match.
+ *
+ * <b> Not to be confused with a Team within the context of a tournament. </b>
+ */
 public class Team {
-
-    //two static refs to hold two team instances
-    //these will be the only way to acquire teams other than reflection
-    private static Team team1;
-
-    private static Team team2;
 
     // This is the list of players in this team.
     private List<Player> playerList;
@@ -27,19 +27,23 @@ public class Team {
     //this is a variable to store team name
     private String teamName;
 
-    public Player getCurrentPlayer(int index) {
+    public Player getCurrentPlayerFromList(int index) {
         if (index > playerList.size() - 1 || index < 0) {
             throw new IndexOutOfBoundsException("the index is wrong");
         }
         return playerList.get(index);
     }
 
-    public int getCurrentPlayerAndRemove() {
-        return currentPlayer++;
+//    public int getCurrentPlayerAndRemove() {
+//        return currentPlayer++;
+//    }
+
+    int getCurrentPlayer() {
+        return currentPlayer;
     }
 
     //there can only be two teams at any moment in a match
-    private Team(String teamName) {
+    Team(String teamName) {
         this.teamName = teamName;
         initPlayers();
     }
@@ -66,22 +70,6 @@ public class Team {
         runs += value;
     }
 
-
-    public static Team getTeam1() {
-        if (team1 == null) team1 = new Team("Team 1");
-        return team1;
-    }
-
-    public static Team getTeam2() {
-        if (team2 == null) team2 = new Team("Team 2");
-        return team2;
-    }
-
-    public static void refreshInstances() {
-        team1 = null;
-        team2 = null;
-    }
-
     public boolean isTeamOut() {
         return teamOut;
     }
@@ -90,7 +78,7 @@ public class Team {
         return runs;
     }
 
-    public void declareTeamOut() {
+    public void setTeamOutToTrue() {
         teamOut = true;
     }
 
@@ -102,11 +90,5 @@ public class Team {
         return 11 - (currentPlayer + 1);
     }
 
-//    static class Builder {
-//
-//        Builder() {
-//
-//        }
-//
-//    }
+
 }

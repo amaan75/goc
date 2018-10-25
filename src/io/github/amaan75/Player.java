@@ -34,9 +34,12 @@ public class Player {
         }
     }
 
+    /**
+     * This method declares the player as out
+     */
     public void setPlayerOut() {
         out = true;
-        System.out.println("Player Number:" + (id + 1) + " is out");
+//        System.out.println("Player Number:" + (id + 1) + " is out");
     }
 
     public boolean isOut() {
