@@ -26,5 +26,11 @@ public class Match {
         MatchOps.printEndMatchMessage(currentMatchNumber);
     }
 
+    public Innings getFirstInnings() {
+        return firstInnings;
+    }
 
+    public Innings getSecondInnings() {
+        return secondInnings;
+    }
 }

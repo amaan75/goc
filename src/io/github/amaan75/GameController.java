@@ -7,22 +7,21 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GameController {
 
-    private Team team1;
-    private Team team2;
+    private String team1Name;
+    private String team2Name;
     private int matchCounter = 1;
     private int totalMatchLimit = 0;
-    private Match match;
 
 
     public GameController(int numberOfMatches) {
-        this.team1 = new Team("team1");
-        this.team2 = new Team("team2");
+        this.team1Name = "Team1";
+        this.team2Name = "Team2";
         totalMatchLimit = numberOfMatches;
     }
 
     public GameController(String team1Name, String team2Name, int numberOfMatches) {
-        this.team1 = new Team(team1Name);
-        this.team2 = new Team(team2Name);
+        this.team1Name = team1Name;
+        this.team2Name = team2Name;
         totalMatchLimit = numberOfMatches;
     }
 
@@ -32,8 +31,12 @@ public class GameController {
      */
     void playGame() {
         for (int i = 0; i < totalMatchLimit; i++) {
-            match = new Match(team1, team2);
+            Team team1 = new Team(this.team1Name);
+            Team team2 = new Team(this.team2Name);
+            Match match = new Match(team1, team2);
             match.playGame(matchCounter++);
+            ScoreBoard scoreBoard = new ScoreBoard(match);
+            scoreBoard.showScore();
         }
 
 

@@ -173,4 +173,10 @@ class MatchOps {
         StringUtils.printMessage(String.format("%s made %d runs",
                 team.getTeamName(), team.getRuns()));
     }
+
+
+    static void showScore(Match match) {
+
+    }
+
 }

@@ -8,16 +8,14 @@ public class Player {
 
     private String playerName;
 
-    //use this later, when adding
-    // more things to the game
-//    private int runs;
+    private int runs;
 
     private boolean out;
 
     private Player(@NotNull Builder builder) {
         id = builder.id;
         playerName = builder.playerName;
-//        runs = builder.runs;
+        runs = builder.runs;
         out = builder.out;
     }
 
@@ -25,11 +23,20 @@ public class Player {
         return playerName;
     }
 
+    public int getRuns() {
+        return runs;
+    }
+
+
+    public void addRuns(int runsToAdd) {
+        runs += runsToAdd;
+    }
+
     //Builder class is the Builder Pattern from Effective Java
     //used to instantiate the player class
     public static class Builder {
         private short id;
-        //        private int runs = 0;
+        private int runs = 0;
         private boolean out = false;
         private String playerName;
 
@@ -38,8 +45,9 @@ public class Player {
             playerName = "a" + id;
         }
 
-        void playerName(String name) {
+        Builder playerName(String name) {
             playerName = name;
+            return this;
         }
 
         Player build() {

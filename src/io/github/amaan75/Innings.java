@@ -8,6 +8,12 @@ public class Innings {
 
     private int inningsNumber;
 
+    /**
+     * this will hold a ref to the team,
+     * inorder to map a team with its innings
+     */
+    private Team battingTeam;
+
     Innings(String inningName, int inningsNumber) {
         this.inningName = inningName;
         this.inningsNumber = inningsNumber;

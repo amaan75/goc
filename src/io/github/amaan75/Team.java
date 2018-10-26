@@ -35,7 +35,6 @@ public class Team {
     }
 
 
-
     int getCurrentPlayer() {
         return currentPlayer;
     }
@@ -43,14 +42,23 @@ public class Team {
     //there can only be two teams at any moment in a match
     Team(String teamName) {
         this.teamName = teamName;
-        initPlayers();
+        initPlayers(teamName + "Player");
     }
 
+    /**
+     * @param teamName         the name of the team
+     * @param playerNamePrefix the prefix to be added to the player of the team
+     */
+    Team(String teamName, String playerNamePrefix) {
+        this.teamName = teamName;
+        initPlayers(playerNamePrefix);
+    }
 
-    private void initPlayers() {
+    private void initPlayers(String playerNamePrefix) {
         playerList = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
-            playerList.add(new Player.Builder((short) i).build());
+            playerList.add(new Player.Builder((short) i)
+                    .playerName(playerNamePrefix + i).build());
         }
     }
 
