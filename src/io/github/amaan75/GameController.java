@@ -15,16 +15,9 @@ public class GameController {
 
 
     public GameController(int numberOfMatches) {
-        this.team1 = new Team("team1");
-        this.team2 = new Team("team2");
         totalMatchLimit = numberOfMatches;
     }
 
-    public GameController(String team1Name, String team2Name, int numberOfMatches) {
-        this.team1 = new Team(team1Name);
-        this.team2 = new Team(team2Name);
-        totalMatchLimit = numberOfMatches;
-    }
 
     /**
      * The playGame method is used to play the game between  2 teams a specified number
@@ -32,6 +25,8 @@ public class GameController {
      */
     void playGame() {
         for (int i = 0; i < totalMatchLimit; i++) {
+            team1 = new Team("Team 1");
+            team2 = new Team("Team 2");
             match = new Match(team1, team2);
             match.playGame(matchCounter++);
         }
