@@ -34,9 +34,7 @@ public class Team {
         return playerList.get(index);
     }
 
-//    public int getCurrentPlayerAndRemove() {
-//        return currentPlayer++;
-//    }
+
 
     int getCurrentPlayer() {
         return currentPlayer;
@@ -91,4 +89,10 @@ public class Team {
     }
 
 
+    public void callNextPlayer() {
+        if (currentPlayer > 10) {
+            return;
+        }
+        currentPlayer++;
+    }
 }

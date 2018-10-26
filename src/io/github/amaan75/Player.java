@@ -6,16 +6,23 @@ public class Player {
 
     private short id;
 
+    private String playerName;
+
     //use this later, when adding
     // more things to the game
-    private int runs;
+//    private int runs;
 
     private boolean out;
 
     private Player(@NotNull Builder builder) {
         id = builder.id;
+        playerName = builder.playerName;
 //        runs = builder.runs;
         out = builder.out;
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 
     //Builder class is the Builder Pattern from Effective Java
@@ -24,9 +31,15 @@ public class Player {
         private short id;
         //        private int runs = 0;
         private boolean out = false;
+        private String playerName;
 
         Builder(short id) {
             this.id = id;
+            playerName = "a" + id;
+        }
+
+        void playerName(String name) {
+            playerName = name;
         }
 
         Player build() {
@@ -39,7 +52,6 @@ public class Player {
      */
     public void setPlayerOut() {
         out = true;
-//        System.out.println("Player Number:" + (id + 1) + " is out");
     }
 
     public boolean isOut() {

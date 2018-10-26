@@ -14,12 +14,12 @@ public class CricketGame {
 
 
     static void start(int numberOfMatches) {
-        MatchController matchController =
-                new MatchController(
-                     numberOfMatches
+        GameController gameController =
+                new GameController(
+                        numberOfMatches
                 );
 
-        matchController.playGame(numberOfMatches);
+        gameController.playGame();
 
     }
 

@@ -2,7 +2,7 @@ package io.github.amaan75;
 
 public class Innings {
 
-    private int currentBall = 0;
+    private int currentBall = 1;
 
     private String inningName;
 
@@ -29,6 +29,7 @@ public class Innings {
     public int getInningsNumber() {
         return inningsNumber;
     }
+
 
 //    static class InningsBuilder {
 //

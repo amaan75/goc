@@ -10,7 +10,7 @@ class MatchOps {
 
     //this field will hold the index of last player number who will bat,
     //since a player can't bat alone in cricket
-    private final static int LAST_PLAYER = 9;
+    private final static int LAST_PLAYER = 10;
     //this is the total number of balls in a match
     private static final int TOTAL_BALLS = 20 * 6;
 
@@ -33,23 +33,27 @@ class MatchOps {
     static void declareAndSetPlayerOut(@NotNull Team team) {
         int currPlayerIndex = team.getCurrentPlayer();
         team.getCurrentPlayerFromList(currPlayerIndex).setPlayerOut();
-        System.out.println("Runs For " + team.getTeamName() + " are:" + team.getRuns());
-//        if (currPlayerIndex == LAST_PLAYER) {
-//            team.setTeamOutToTrue();
-//        }
+        StringUtils.printMessage(String.format("PLAYER %s IS OUT!",
+                team.getCurrentPlayerFromList(currPlayerIndex).getPlayerName()));
     }
 
 
-    static void declareWinner(@NotNull Team team1, @NotNull Team team2) {
+    /**
+     * This method takes two teams, compares the runs and declares the
+     * winner
+     *
+     * @param team1 1st out of the two playing teams
+     * @param team2 2nd out of the two playing teams
+     */
+    static void computeAndDeclareWinner(@NotNull Team team1, @NotNull Team team2) {
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
         if (run1 > run2)
-            System.out.println("Team 1 wins by " + (run1 - run2) + " runs");
+            StringUtils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
         else if (run1 == run2)
-            System.out.println("This match was a draw");
+            StringUtils.printMessage("This match was a draw");
         else {
-//            System.out.println("Team 2 wins by " + (run2 - run1) + " runs");
-            System.out.println("Team 2 won by " + team2.getPlayerRemainingCount() + " wickets");
+            StringUtils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
         }
     }
 
@@ -65,14 +69,13 @@ class MatchOps {
     }
 
 
-    static void startInning(@NotNull Team team, Innings innings) {
-//        StringUtils.printMessage(String.format(""));
+    static void startInning(@NotNull Team team, Innings innings, int targetRuns) {
         switch (innings.getInningsNumber()) {
             case 1:
                 playInning(team, innings);
                 break;
             case 2:
-                playInning(team, innings, team.getRuns());
+                playInning(team, innings, targetRuns);
                 break;
 //            case 3:
 //                StringUtils.printMessage("NOTHING SO FAR");
@@ -80,8 +83,7 @@ class MatchOps {
 //            case 4:
 //                break;
             default:
-                StringUtils.printMessage("ONLY HAS SUPPORT FOR TWO INNINGS So far");
-                //cant have more than that
+                StringUtils.printMessage("ONLY HAS SUPPORT FOR TWO INNINGS SO FAR");
         }
 
     }
@@ -118,31 +120,29 @@ class MatchOps {
                 team.addRun(ballResult);
             } else {
                 MatchOps.declareAndSetPlayerOut(team);
+                team.callNextPlayer();
+                MatchOps.checkAndSetTeamOut(team);
             }
-            if ()
-
         }
 
     }
 
+    /**
+     * This method checks if the the last player is out and if so,
+     * it declares the team out and sets it to true
+     *
+     * @param team {@link Team} takes a team instance
+     */
+    private static void checkAndSetTeamOut(Team team) {
+        if (team.getCurrentPlayer() == LAST_PLAYER) {
+            team.setTeamOutToTrue();
+            StringUtils.printMessage(String.format("%s ALL OUT!", team.getTeamName()));
+        }
+    }
 
-//    static void startInning(@NotNull Team team, Innings inning, int runs) {
-//        System.out.println("Starting " + inning.getInningName() + " Inning");
-//        System.out.println(team.getTeamName() + " plays: ");
-//        while (!team.isTeamOut() &&
-//                inning.getCurrentBall() < Innings.TOTAL_BALLS &&
-//                team.getRuns() < runs) {
-//            int res = MatchOps.playBall();
-//            inning.increaseBallCount();
-//            team.addRun(res);
-//            if (res > 6) {
-//                MatchOps.playerOut(team);
-//            }
-//        }
-//    }
 
     /**
-     * internally calls the string utils to print message.
+     * Internally calls the string utils to print message.
      *
      * @param currentMatchNumber Takes the number of the current match that is going on,
      */
@@ -154,4 +154,23 @@ class MatchOps {
     }
 
 
+    /**
+     * This method takes a team and innings and then reports the number of balls taken by a team
+     *
+     * @param team   {@link Team} the team that just finished innings
+     * @param inning {@link Innings} the innings that just ended
+     */
+    public static void reportOversAndBalls(Team team, Innings inning) {
+        int overs = inning.getCurrentBall() / 6;
+        int numberOfOverBalls = inning.getCurrentBall() - (overs * 6);
+        StringUtils.printMessage(String.format("%s used %d overs and %d balls", team.getTeamName(),
+                overs, numberOfOverBalls));
+    }
+
+
+    public static void endInningAndReportStats(Team team, Innings inning) {
+        MatchOps.reportOversAndBalls(team, inning);
+        StringUtils.printMessage(String.format("%s made %d runs",
+                team.getTeamName(), team.getRuns()));
+    }
 }

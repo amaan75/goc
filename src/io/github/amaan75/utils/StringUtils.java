@@ -16,6 +16,6 @@ public class StringUtils {
      * @param message Takes a message and then prints it
      */
     public static void printMessage(String message) {
-        System.out.print(message);
+        System.out.println(message);
     }
 }
