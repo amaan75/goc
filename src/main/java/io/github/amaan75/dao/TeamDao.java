@@ -1,4 +1,9 @@
-package io.github.amaan75;
+package io.github.amaan75.dao;
+
+import io.github.amaan75.dto.TeamDto;
+import io.github.amaan75.utils.Utils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +12,12 @@ import java.util.List;
  * This class Describes a team and its state when its currently
  * playing in a match.
  *
- * <b> Not to be confused with a Team within the context of a tournament. </b>
+ * <b> Not to be confused with a TeamDao within the context of a tournament. </b>
  */
-public class Team {
+public class TeamDao {
 
     // This is the list of players in this team.
-    private List<Player> playerList;
+    private List<PlayerDao> playerList;
 
     //variable to hold the status of the
     // entire team out or not.
@@ -27,7 +32,7 @@ public class Team {
     //this is a variable to store team name
     private String teamName;
 
-    public Player getCurrentPlayerFromList(int index) {
+    public PlayerDao getCurrentPlayerFromList(int index) {
         if (index > playerList.size() - 1 || index < 0) {
             throw new IndexOutOfBoundsException("the index is wrong");
         }
@@ -35,29 +40,39 @@ public class Team {
     }
 
 
-    int getCurrentPlayer() {
+    public int getCurrentPlayer() {
         return currentPlayer;
     }
 
     //there can only be two teams at any moment in a match
-    Team(String teamName) {
+    public TeamDao(String teamName) {
         this.teamName = teamName;
-        initPlayers(teamName + "Player");
+        initPlayers(teamName + "PlayerDao");
     }
 
     /**
      * @param teamName         the name of the team
      * @param playerNamePrefix the prefix to be added to the player of the team
      */
-    Team(String teamName, String playerNamePrefix) {
+    TeamDao(String teamName, String playerNamePrefix) {
         this.teamName = teamName;
         initPlayers(playerNamePrefix);
+    }
+
+    private TeamDao(TeamDto teamDto) {
+        teamName = teamDto.getName();
+        playerList = Utils.mapPlayerDtoListToPlayerDaoList(teamDto.getPlayerDtoList());
+    }
+
+
+    public static TeamDao from(TeamDto teamDto) {
+        return new TeamDao(teamDto);
     }
 
     private void initPlayers(String playerNamePrefix) {
         playerList = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
-            playerList.add(new Player.Builder((short) i)
+            playerList.add(new PlayerDao.Builder((short) i)
                     .playerName(playerNamePrefix + i).build());
         }
     }
@@ -65,7 +80,7 @@ public class Team {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Player player : playerList) {
+        for (PlayerDao player : playerList) {
             stringBuilder.append(player);//.append("\n");
         }
         return stringBuilder.toString();
@@ -95,7 +110,6 @@ public class Team {
     public int getPlayerRemainingCount() {
         return 11 - (currentPlayer + 1);
     }
-
 
     public void callNextPlayer() {
         if (currentPlayer > 10) {

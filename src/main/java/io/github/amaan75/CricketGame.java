@@ -1,5 +1,10 @@
 package io.github.amaan75;
 
+import io.github.amaan75.dto.TeamDto;
+import io.github.amaan75.utils.Utils;
+
+import java.util.List;
+
 public class CricketGame {
 
     public static void main(String[] args) {
@@ -16,11 +21,10 @@ public class CricketGame {
     static void start(int numberOfMatches) {
         GameController gameController =
                 new GameController(
-                        numberOfMatches
+                        numberOfMatches,
+                        "/Users/amangulati/Workspace/Tekion/Java/GameOfCricket/src/main/resources/Teams.json"
                 );
-
         gameController.playGame();
-
     }
 
 }

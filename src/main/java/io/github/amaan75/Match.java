@@ -1,15 +1,17 @@
 package io.github.amaan75;
 
+import io.github.amaan75.dao.TeamDao;
+
 public class Match {
 
 
-    private Team team1;
-    private Team team2;
+    private TeamDao team1;
+    private TeamDao team2;
     private Innings firstInnings;
     private Innings secondInnings;
 //    private int noOfInnings;
 
-    Match(Team team1, Team team2) {
+    Match(TeamDao team1, TeamDao team2) {
         this.team1 = team1;
         this.team2 = team2;
     }

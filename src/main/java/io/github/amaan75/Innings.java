@@ -1,5 +1,7 @@
 package io.github.amaan75;
 
+import io.github.amaan75.dao.TeamDao;
+
 public class Innings {
 
     private int currentBall = 1;
@@ -12,7 +14,7 @@ public class Innings {
      * this will hold a ref to the team,
      * inorder to map a team with its innings
      */
-    private Team battingTeam;
+    private TeamDao battingTeam;
 
     Innings(String inningName, int inningsNumber) {
         this.inningName = inningName;

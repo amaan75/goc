@@ -1,6 +1,7 @@
 package io.github.amaan75;
 
-import io.github.amaan75.utils.StringUtils;
+import io.github.amaan75.dao.TeamDao;
+import io.github.amaan75.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
@@ -30,10 +31,10 @@ class MatchOps {
         return rnd.nextInt(8);
     }
 
-    static void declareAndSetPlayerOut(@NotNull Team team) {
+    static void declareAndSetPlayerOut(@NotNull TeamDao team) {
         int currPlayerIndex = team.getCurrentPlayer();
         team.getCurrentPlayerFromList(currPlayerIndex).setPlayerOut();
-        StringUtils.printMessage(String.format("PLAYER %s IS OUT!",
+        Utils.printMessage(String.format("PLAYER %s IS OUT!",
                 team.getCurrentPlayerFromList(currPlayerIndex).getPlayerName()));
     }
 
@@ -45,15 +46,15 @@ class MatchOps {
      * @param team1 1st out of the two playing teams
      * @param team2 2nd out of the two playing teams
      */
-    static void computeAndDeclareWinner(@NotNull Team team1, @NotNull Team team2) {
+    static void computeAndDeclareWinner(@NotNull TeamDao team1, @NotNull TeamDao team2) {
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
         if (run1 > run2)
-            StringUtils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
+            Utils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
         else if (run1 == run2)
-            StringUtils.printMessage("This match was a draw");
+            Utils.printMessage("This match was a draw");
         else {
-            StringUtils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
+            Utils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
         }
     }
 
@@ -63,27 +64,27 @@ class MatchOps {
      * @param currentMatchCount this is the current Match Count
      */
     static void printStartMatchMessage(int currentMatchCount) {
-        StringUtils.printMessage(String.format(
+        Utils.printMessage(String.format(
                 "**********************************BEGIN MATCH %d*************************** %n",
                 currentMatchCount));
     }
 
 
-    static void startInning(@NotNull Team team, Innings innings, int targetRuns) {
+    static void startInning(@NotNull TeamDao team, Innings innings, int teamRuns) {
         switch (innings.getInningsNumber()) {
             case 1:
                 playInning(team, innings);
                 break;
             case 2:
-                playInning(team, innings, targetRuns);
+                playInning(team, innings, (teamRuns + 1));
                 break;
 //            case 3:
-//                StringUtils.printMessage("NOTHING SO FAR");
+//                Utils.printMessage("NOTHING SO FAR");
 //                break;
 //            case 4:
 //                break;
             default:
-                StringUtils.printMessage("ONLY HAS SUPPORT FOR TWO INNINGS SO FAR");
+                Utils.printMessage("ONLY HAS SUPPORT FOR TWO INNINGS SO FAR");
         }
 
     }
@@ -96,7 +97,7 @@ class MatchOps {
      * @param team   this method is the implementation for the first Inning.
      * @param inning the inning instance that is currently going on.
      */
-    static void playInning(Team team, Innings inning) {
+    static void playInning(TeamDao team, Innings inning) {
         playInning(team, inning, Integer.MAX_VALUE);
     }
 
@@ -108,7 +109,7 @@ class MatchOps {
      * @param inning     this is the current innings that is going on.
      * @param targetRuns these are the target runs, that the current batting team has to beat.
      */
-    static void playInning(Team team, Innings inning, int targetRuns) {
+    static void playInning(TeamDao team, Innings inning, int targetRuns) {
         while (!team.isTeamOut() &&
                 inning.getCurrentBall() < TOTAL_BALLS &&
                 team.getRuns() < targetRuns) {
@@ -131,12 +132,12 @@ class MatchOps {
      * This method checks if the the last player is out and if so,
      * it declares the team out and sets it to true
      *
-     * @param team {@link Team} takes a team instance
+     * @param team {@link TeamDao} takes a team instance
      */
-    private static void checkAndSetTeamOut(Team team) {
+    private static void checkAndSetTeamOut(TeamDao team) {
         if (team.getCurrentPlayer() == LAST_PLAYER) {
             team.setTeamOutToTrue();
-            StringUtils.printMessage(String.format("%s ALL OUT!", team.getTeamName()));
+            Utils.printMessage(String.format("%s ALL OUT!", team.getTeamName()));
         }
     }
 
@@ -147,7 +148,7 @@ class MatchOps {
      * @param currentMatchNumber Takes the number of the current match that is going on,
      */
     public static void printEndMatchMessage(int currentMatchNumber) {
-        StringUtils.printMessage(String.format(
+        Utils.printMessage(String.format(
                 "**********************************END MATCH %d*************************** %n",
                 currentMatchNumber));
 
@@ -157,20 +158,20 @@ class MatchOps {
     /**
      * This method takes a team and innings and then reports the number of balls taken by a team
      *
-     * @param team   {@link Team} the team that just finished innings
+     * @param team   {@link TeamDao} the team that just finished innings
      * @param inning {@link Innings} the innings that just ended
      */
-    public static void reportOversAndBalls(Team team, Innings inning) {
+    public static void reportOversAndBalls(TeamDao team, Innings inning) {
         int overs = inning.getCurrentBall() / 6;
         int numberOfOverBalls = inning.getCurrentBall() - (overs * 6);
-        StringUtils.printMessage(String.format("%s used %d overs and %d balls", team.getTeamName(),
+        Utils.printMessage(String.format("%s used %d overs and %d balls", team.getTeamName(),
                 overs, numberOfOverBalls));
     }
 
 
-    public static void endInningAndReportStats(Team team, Innings inning) {
+    public static void endInningAndReportStats(TeamDao team, Innings inning) {
         MatchOps.reportOversAndBalls(team, inning);
-        StringUtils.printMessage(String.format("%s made %d runs",
+        Utils.printMessage(String.format("%s made %d runs",
                 team.getTeamName(), team.getRuns()));
     }
 

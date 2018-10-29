@@ -1,10 +1,10 @@
-package io.github.amaan75;
+package io.github.amaan75.dao;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Player {
+public class PlayerDao {
 
-    private short id;
+    private long id;
 
     private String playerName;
 
@@ -12,7 +12,7 @@ public class Player {
 
     private boolean out;
 
-    private Player(@NotNull Builder builder) {
+    private PlayerDao(@NotNull Builder builder) {
         id = builder.id;
         playerName = builder.playerName;
         runs = builder.runs;
@@ -35,23 +35,24 @@ public class Player {
     //Builder class is the Builder Pattern from Effective Java
     //used to instantiate the player class
     public static class Builder {
-        private short id;
+        private long id;
         private int runs = 0;
         private boolean out = false;
         private String playerName;
 
-        Builder(short id) {
+        public Builder(int id) {
             this.id = id;
             playerName = "a" + id;
         }
 
-        Builder playerName(String name) {
+
+        public Builder playerName(String name) {
             playerName = name;
             return this;
         }
 
-        Player build() {
-            return new Player(this);
+        public PlayerDao build() {
+            return new PlayerDao(this);
         }
     }
 
@@ -68,6 +69,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "{Player:" + id + " out:" + out + "}";
+        return "{PlayerDao:" + id + " out:" + out + "}";
     }
 }
