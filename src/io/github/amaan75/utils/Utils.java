@@ -2,10 +2,10 @@ package io.github.amaan75.utils;
 
 import org.jetbrains.annotations.Contract;
 
-public class StringUtils {
+public class Utils {
 
     @Contract(" -> fail")
-    private StringUtils() {
+    private Utils() {
         //do not instantiate
         throw new AssertionError("please don't instantiate this");
     }

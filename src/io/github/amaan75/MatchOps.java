@@ -1,6 +1,6 @@
 package io.github.amaan75;
 
-import io.github.amaan75.utils.StringUtils;
+import io.github.amaan75.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
@@ -33,7 +33,7 @@ class MatchOps {
     static void declareAndSetPlayerOut(@NotNull Team team) {
         int currPlayerIndex = team.getCurrentPlayer();
         team.getCurrentPlayerFromList(currPlayerIndex).setPlayerOut();
-        StringUtils.printMessage(String.format("PLAYER %s IS OUT!",
+        Utils.printMessage(String.format("PLAYER %s IS OUT!",
                 team.getCurrentPlayerFromList(currPlayerIndex).getPlayerName()));
     }
 
@@ -49,11 +49,11 @@ class MatchOps {
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
         if (run1 > run2)
-            StringUtils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
+            Utils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
         else if (run1 == run2)
-            StringUtils.printMessage("This match was a draw");
+            Utils.printMessage("This match was a draw");
         else {
-            StringUtils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
+            Utils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
         }
     }
 
@@ -63,27 +63,27 @@ class MatchOps {
      * @param currentMatchCount this is the current Match Count
      */
     static void printStartMatchMessage(int currentMatchCount) {
-        StringUtils.printMessage(String.format(
+        Utils.printMessage(String.format(
                 "**********************************BEGIN MATCH %d*************************** %n",
                 currentMatchCount));
     }
 
 
-    static void startInning(@NotNull Team team, Innings innings, int targetRuns) {
+    static void startInning(@NotNull Team team, Innings innings, int targetRuns, ScoreBoard scoreBoard) {
         switch (innings.getInningsNumber()) {
             case 1:
-                playInning(team, innings);
+                playInning(team, innings, scoreBoard);
                 break;
             case 2:
-                playInning(team, innings, targetRuns);
+                playInning(team, innings, targetRuns, scoreBoard);
                 break;
 //            case 3:
-//                StringUtils.printMessage("NOTHING SO FAR");
+//                Utils.printMessage("NOTHING SO FAR");
 //                break;
 //            case 4:
 //                break;
             default:
-                StringUtils.printMessage("ONLY HAS SUPPORT FOR TWO INNINGS SO FAR");
+                Utils.printMessage("ONLY HAS SUPPORT FOR TWO INNINGS SO FAR");
         }
 
     }
@@ -93,11 +93,12 @@ class MatchOps {
      * This method is the implementation for FirstInning, and takes only two parameters because
      * we don't have any target for the first Innings
      *
-     * @param team   this method is the implementation for the first Inning.
-     * @param inning the inning instance that is currently going on.
+     * @param team       this method is the implementation for the first Inning.
+     * @param inning     the inning instance that is currently going on.
+     * @param scoreBoard
      */
-    static void playInning(Team team, Innings inning) {
-        playInning(team, inning, Integer.MAX_VALUE);
+    static void playInning(Team team, Innings inning, ScoreBoard scoreBoard) {
+        playInning(team, inning, Integer.MAX_VALUE, scoreBoard);
     }
 
     /**
@@ -108,7 +109,7 @@ class MatchOps {
      * @param inning     this is the current innings that is going on.
      * @param targetRuns these are the target runs, that the current batting team has to beat.
      */
-    static void playInning(Team team, Innings inning, int targetRuns) {
+    static void playInning(Team team, Innings inning, int targetRuns, ScoreBoard scoreBoard) {
         while (!team.isTeamOut() &&
                 inning.getCurrentBall() < TOTAL_BALLS &&
                 team.getRuns() < targetRuns) {
@@ -116,13 +117,16 @@ class MatchOps {
             //0-6 or 7 for bold
             int ballResult = MatchOps.playBall();
             if (ballResult <= 6) {
-                inning.increaseBallCount();
                 team.addRun(ballResult);
+                Utils.printMessage("BALL RUN:" + ballResult);
             } else {
                 MatchOps.declareAndSetPlayerOut(team);
                 team.callNextPlayer();
                 MatchOps.checkAndSetTeamOut(team);
             }
+            inning.increaseBallCount();
+            Utils.printMessage(scoreBoard.fetchFormattedScore(inning.getInningsNumber()));
+
         }
 
     }
@@ -136,7 +140,7 @@ class MatchOps {
     private static void checkAndSetTeamOut(Team team) {
         if (team.getCurrentPlayer() == LAST_PLAYER) {
             team.setTeamOutToTrue();
-            StringUtils.printMessage(String.format("%s ALL OUT!", team.getTeamName()));
+            Utils.printMessage(String.format("%s ALL OUT!", team.getTeamName()));
         }
     }
 
@@ -147,7 +151,7 @@ class MatchOps {
      * @param currentMatchNumber Takes the number of the current match that is going on,
      */
     public static void printEndMatchMessage(int currentMatchNumber) {
-        StringUtils.printMessage(String.format(
+        Utils.printMessage(String.format(
                 "**********************************END MATCH %d*************************** %n",
                 currentMatchNumber));
 
@@ -163,14 +167,14 @@ class MatchOps {
     public static void reportOversAndBalls(Team team, Innings inning) {
         int overs = inning.getCurrentBall() / 6;
         int numberOfOverBalls = inning.getCurrentBall() - (overs * 6);
-        StringUtils.printMessage(String.format("%s used %d overs and %d balls", team.getTeamName(),
+        Utils.printMessage(String.format("%s used %d overs and %d balls", team.getTeamName(),
                 overs, numberOfOverBalls));
     }
 
 
     public static void endInningAndReportStats(Team team, Innings inning) {
         MatchOps.reportOversAndBalls(team, inning);
-        StringUtils.printMessage(String.format("%s made %d runs",
+        Utils.printMessage(String.format("%s made %d runs",
                 team.getTeamName(), team.getRuns()));
     }
 }
