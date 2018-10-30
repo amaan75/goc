@@ -19,7 +19,7 @@ public class GameController {
     private List<TeamDao> teamDaoList;
 
 
-    public GameController(int numberOfMatches,String fileName) {
+    public GameController(int numberOfMatches, String fileName) {
         teamDaoList = initTeams(fileName);
         totalMatchLimit = numberOfMatches;
     }

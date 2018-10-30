@@ -25,6 +25,8 @@ public class CricketGame {
                         "/Users/amangulati/Workspace/Tekion/Java/GameOfCricket/src/main/resources/Teams.json"
                 );
         gameController.playGame();
+
+
     }
 
 }
