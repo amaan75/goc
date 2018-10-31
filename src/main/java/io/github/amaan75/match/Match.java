@@ -1,7 +1,11 @@
-package io.github.amaan75;
+package io.github.amaan75.match;
 
-import io.github.amaan75.model.MatchLifecycle;
+import io.github.amaan75.MatchUtils;
+import io.github.amaan75.ScoreBoard;
 import io.github.amaan75.model.TeamModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is responsible for Handling a single match between two teams
@@ -11,10 +15,10 @@ public class Match implements MatchLifecycle {
 
     private TeamModel team1;
     private TeamModel team2;
-    private GamesController gamesController;
-    private ScoreBoard scoreBoard;
+    private List<MatchLifeCycleCallBackListener> matchLifeCycleCallBackListenerList;
 
-    Match(TeamModel team1, TeamModel team2) {
+
+    public Match(TeamModel team1, TeamModel team2) {
         this.team1 = team1;
         this.team2 = team2;
     }
@@ -22,17 +26,16 @@ public class Match implements MatchLifecycle {
 
     // this method registers the callback listener
     // gamesController in our case
-    void registerCallBackListener(GamesController gamesController,
-                                  ScoreBoard scoreBoard) {
-        this.gamesController = gamesController;
-        this.scoreBoard = scoreBoard;
+    public void registerCallBackListener(MatchLifeCycleCallBackListener matchLifeCycleCallBackListener) {
+        if (matchLifeCycleCallBackListenerList == null)
+            matchLifeCycleCallBackListenerList = new ArrayList<>();
+        matchLifeCycleCallBackListenerList.add(matchLifeCycleCallBackListener);
     }
 
 
     @Override
     public void startGame() {
-        if (gamesController != null)
-            gamesController.startGameCallBack();
+        matchLifeCycleCallBackListenerList.forEach(MatchLifeCycleCallBackListener::startGameCallback);
         team1.finaliseTeamForNewGame();
         team2.finaliseTeamForNewGame();
         playGame();
@@ -40,21 +43,17 @@ public class Match implements MatchLifecycle {
 
     @Override
     public void playGame() {
-        if (gamesController != null)
-            gamesController.playGameCallBack();
-        ScoreBoard scoreBoard = new ScoreBoard(team1, team2);
-        MatchUtils.startInning(team1, -1, scoreBoard);
+        matchLifeCycleCallBackListenerList.forEach(MatchLifeCycleCallBackListener::playGameCallback);
+        MatchUtils.startInning(team1, -1, (ScoreBoard) matchLifeCycleCallBackListenerList.get(1));
         MatchUtils.endInningAndReportStats(team1);
-        MatchUtils.startInning(team2, team1.getRuns(), scoreBoard);
+        MatchUtils.startInning(team2, team1.getRuns(), (ScoreBoard) matchLifeCycleCallBackListenerList.get(1));
         MatchUtils.endInningAndReportStats(team2);
-        MatchUtils.computeAndDeclareWinner(team1, team2);
-        endGame();
+        endGame(MatchUtils.computeAndDeclareWinner(team1, team2));
     }
 
     @Override
-    public void endGame() {
-        if (gamesController != null)
-            gamesController.endGameCallBack();
-
+    public void endGame(TeamModel team) {
+        matchLifeCycleCallBackListenerList.forEach(matchLifeCycleCallBackListener ->
+                matchLifeCycleCallBackListener.endGameCallback(team));
     }
 }

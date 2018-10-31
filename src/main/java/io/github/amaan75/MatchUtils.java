@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Class with only static methods which represent the operations in a single match
  */
-class MatchOps {
+public class MatchUtils {
 
     //this field will hold the index of last player number who will bat,
     //since a player can't bat alone in cricket
@@ -21,7 +21,7 @@ class MatchOps {
     //cached because this will be used very often
     private static Random rnd = ThreadLocalRandom.current();
 
-    private MatchOps() {
+    private MatchUtils() {
         //do not instantiate
         throw new AssertionError("This class is only for static methods");
     }
@@ -49,16 +49,23 @@ class MatchOps {
      * @param team1 1st out of the two playing teams
      * @param team2 2nd out of the two playing teams
      */
-    static void computeAndDeclareWinner(@NotNull TeamModel team1, @NotNull TeamModel team2) {
+    public static TeamModel computeAndDeclareWinner(@NotNull TeamModel team1, @NotNull TeamModel team2) {
+        TeamModel team = null;
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
-        if (run1 > run2)
+        if (run1 > run2) {
             Utils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
-        else if (run1 == run2)
+            team = team1;
+        } else if (run1 == run2) {
             Utils.printMessage("This match was a draw");
-        else {
+
+        } else {
             Utils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
+            team = team2;
         }
+
+
+        return team;
     }
 
     /**
@@ -73,7 +80,7 @@ class MatchOps {
     }
 
 
-    static void startInning(@NotNull TeamModel team, int teamRuns, ScoreBoard scoreBoard) {
+    public static void startInning(@NotNull TeamModel team, int teamRuns, ScoreBoard scoreBoard) {
         if (teamRuns < 0)
             playInning(team, scoreBoard);
         else
@@ -104,13 +111,13 @@ class MatchOps {
                 team.getRuns() < targetRuns) {
             //this ball result will store the value that the ball returns either.
             //0-6 or 7 for bold
-            int ballResult = MatchOps.playBall();
+            int ballResult = MatchUtils.playBall();
             if (ballResult <= 6) {
                 team.addRun(ballResult);
             } else {
-                MatchOps.declareAndSetPlayerOut(team);
+                MatchUtils.declareAndSetPlayerOut(team);
                 team.callNextPlayer();
-                MatchOps.checkAndSetTeamOut(team);
+                MatchUtils.checkAndSetTeamOut(team);
             }
             team.increaseBallUsedCount();
             Utils.printMessage(scoreBoard.computeAndReturnFormattedScore(team.getTeamName()));
@@ -160,7 +167,7 @@ class MatchOps {
 
 
     public static void endInningAndReportStats(TeamModel team) {
-        MatchOps.reportOversAndBalls(team);
+        MatchUtils.reportOversAndBalls(team);
         Utils.printMessage(String.format("%s made %d runs",
                 team.getTeamName(), team.getRuns()));
     }

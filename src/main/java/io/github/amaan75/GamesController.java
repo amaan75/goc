@@ -1,5 +1,7 @@
 package io.github.amaan75;
 
+import io.github.amaan75.match.Match;
+import io.github.amaan75.match.MatchLifeCycleCallBackListener;
 import io.github.amaan75.model.TeamModel;
 import io.github.amaan75.utils.Utils;
 
@@ -7,17 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Game controller is responsible for controlling the entire game,
+ * The Games controller controls all the Matches in match.
  */
-public class GameController {
+public class GamesController implements MatchLifeCycleCallBackListener {
 
 
-    private int matchCounter = 1;
+    private int matchCounter;
     private int totalMatchLimit;
     private List<TeamModel> teamModelList;
 
 
-    public GameController(int numberOfMatches, String fileName) {
+    public GamesController(int numberOfMatches, String fileName) {
         teamModelList = initTeams(fileName);
         totalMatchLimit = numberOfMatches;
     }
@@ -28,10 +30,28 @@ public class GameController {
      * of times
      */
     void playGame() {
-        for (int i = 0; i < totalMatchLimit; i++) {
+        for (matchCounter = 1; matchCounter < totalMatchLimit; matchCounter++) {
             Match match = new Match(teamModelList.get(0), teamModelList.get(1));
-            match.playGame(matchCounter++);
+            match.registerCallBackListener(this, new ScoreBoard(teamModelList.get(0), teamModelList.get(0)));
+            match.startGame();
         }
+    }
+
+    @Override
+    public void startGameCallback() {
+        MatchUtils.printStartMatchMessage(matchCounter);
+
+    }
+
+    @Override
+    public void playGameCallback() {
+
+    }
+
+    @Override
+    public void endGameCallback(TeamModel teamModel) {
+        MatchUtils.printEndMatchMessage(matchCounter);
+
     }
 
 

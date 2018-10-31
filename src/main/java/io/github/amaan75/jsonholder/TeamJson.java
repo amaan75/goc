@@ -1,18 +1,18 @@
-package io.github.amaan75.dto;
+package io.github.amaan75.jsonholder;
 
 import java.util.List;
 
 /**
  * Class used to hold the parsed JSON data.
  */
-public class TeamDto {
+public class TeamJson {
     private String name;
 
-    private List<PlayerDto> playerDtoList;
+    private List<PlayerJson> playerJsonList;
 
-    public TeamDto(String name, List<PlayerDto> playerDtoList) {
+    public TeamJson(String name, List<PlayerJson> playerJsonList) {
         this.name = name;
-        this.playerDtoList = playerDtoList;
+        this.playerJsonList = playerJsonList;
 
     }
 
@@ -21,15 +21,15 @@ public class TeamDto {
         return name;
     }
 
-    public List<PlayerDto> getPlayerDtoList() {
-        return playerDtoList;
+    public List<PlayerJson> getPlayerJsonList() {
+        return playerJsonList;
     }
 
     @Override
     public String toString() {
-        return "TeamDto{" +
+        return "TeamJson{" +
                 "name='" + name + '\'' +
-                ", playerDtoList=" + playerDtoList +
+                ", playerJsonList=" + playerJsonList +
                 '}';
     }
 }

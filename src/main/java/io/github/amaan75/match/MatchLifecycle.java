@@ -1,4 +1,7 @@
-package io.github.amaan75.model;
+package io.github.amaan75.match;
+
+import io.github.amaan75.GamesController;
+import io.github.amaan75.model.TeamModel;
 
 /**
  * This interface represents the phases of a match
@@ -9,6 +12,5 @@ public interface MatchLifecycle {
 
     void playGame();
 
-    void endGame();
-
+    void endGame(TeamModel team);
 }

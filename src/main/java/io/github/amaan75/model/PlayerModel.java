@@ -1,8 +1,8 @@
-package io.github.amaan75.dao;
+package io.github.amaan75.model;
 
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerDao {
+public class PlayerModel {
 
     private long id;
 
@@ -12,7 +12,7 @@ public class PlayerDao {
 
     private boolean out;
 
-    private PlayerDao(@NotNull Builder builder) {
+    private PlayerModel(@NotNull Builder builder) {
         id = builder.id;
         playerName = builder.playerName;
         runs = builder.runs;
@@ -51,8 +51,8 @@ public class PlayerDao {
             return this;
         }
 
-        public PlayerDao build() {
-            return new PlayerDao(this);
+        public PlayerModel build() {
+            return new PlayerModel(this);
         }
     }
 
@@ -69,6 +69,6 @@ public class PlayerDao {
 
     @Override
     public String toString() {
-        return "{PlayerDao:" + id + " out:" + out + "}";
+        return "{PlayerModel:" + id + " out:" + out + "}";
     }
 }

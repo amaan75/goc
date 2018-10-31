@@ -1,6 +1,6 @@
-package io.github.amaan75.dao;
+package io.github.amaan75.model;
 
-import io.github.amaan75.dto.TeamDto;
+import io.github.amaan75.jsonholder.TeamJson;
 import io.github.amaan75.utils.Utils;
 
 import java.util.ArrayList;
@@ -10,12 +10,12 @@ import java.util.List;
  * This class Describes a team and its state when its currently
  * playing in a match.
  *
- * <b> Not to be confused with a TeamDao within the context of a tournament. </b>
+ * <b> Not to be confused with a TeamModel within the context of a tournament. </b>
  */
-public class TeamDao {
+public class TeamModel {
 
     // This is the list of players in this team.
-    private List<PlayerDao> playerList;
+    private List<PlayerModel> playerList;
 
 
 //    //this is the currentPlayer Number which got out.
@@ -28,7 +28,7 @@ public class TeamDao {
     // runs and balls used
     private TeamScore teamScore;
 
-    public PlayerDao getCurrentPlayerFromList(int index) {
+    public PlayerModel getCurrentPlayerFromList(int index) {
         if (index > playerList.size() - 1 || index < 0) {
             throw new IndexOutOfBoundsException("the index is wrong");
         }
@@ -43,33 +43,33 @@ public class TeamDao {
     }
 
     //there can only be two teams at any moment in a match
-    public TeamDao(String teamName) {
-        this(teamName, teamName + "PlayerDao");
+    public TeamModel(String teamName) {
+        this(teamName, teamName + "PlayerModel");
     }
 
     /**
      * @param teamName         the name of the team
      * @param playerNamePrefix the prefix to be added to the player of the team
      */
-    TeamDao(String teamName, String playerNamePrefix) {
+    TeamModel(String teamName, String playerNamePrefix) {
         this.teamName = teamName;
         initPlayers(playerNamePrefix);
     }
 
-    private TeamDao(TeamDto teamDto) {
-        teamName = teamDto.getName();
-        playerList = Utils.mapPlayerDtoListToPlayerDaoList(teamDto.getPlayerDtoList());
+    private TeamModel(TeamJson teamJson) {
+        teamName = teamJson.getName();
+        playerList = Utils.mapPlayerDtoListToPlayerDaoList(teamJson.getPlayerJsonList());
     }
 
 
-    public static TeamDao from(TeamDto teamDto) {
-        return new TeamDao(teamDto);
+    public static TeamModel from(TeamJson teamJson) {
+        return new TeamModel(teamJson);
     }
 
     private void initPlayers(String playerNamePrefix) {
         playerList = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
-            playerList.add(new PlayerDao.Builder((short) i)
+            playerList.add(new PlayerModel.Builder((short) i)
                     .playerName(playerNamePrefix + i).build());
         }
     }
@@ -77,7 +77,7 @@ public class TeamDao {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (PlayerDao player : playerList) {
+        for (PlayerModel player : playerList) {
             stringBuilder.append(player);//.append("\n");
         }
         return stringBuilder.toString();
@@ -140,12 +140,7 @@ public class TeamDao {
         return -1;
     }
 
-//    public TeamScore getTeamScore() {
-//        if (checkTeamReadyForPlay())
-//            return teamScore;
-//        //should also be unreachable, the app will crash if TeamScore references null anyway
-//        return null;
-//    }
+
 
     public int getPlayerRemainingCount() {
         if (checkTeamReadyForPlay())

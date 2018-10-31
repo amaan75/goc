@@ -14,12 +14,12 @@ public class CricketGame {
 
 
     static void start(int numberOfMatches) {
-        GameController gameController =
-                new GameController(
+        GamesController gamesController =
+                new GamesController(
                         numberOfMatches,
                         "/Users/amangulati/Workspace/Tekion/Java/GameOfCricket/src/main/resources/Teams.json"
                 );
-        gameController.playGame();
+        gamesController.playGame();
     }
 
 

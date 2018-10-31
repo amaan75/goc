@@ -1,15 +1,14 @@
 package io.github.amaan75.utils;
 
-import io.github.amaan75.dao.PlayerDao;
-import io.github.amaan75.dto.PlayerDto;
-import io.github.amaan75.dto.TeamDto;
+import io.github.amaan75.model.PlayerModel;
+import io.github.amaan75.jsonholder.PlayerJson;
+import io.github.amaan75.jsonholder.TeamJson;
 import org.jetbrains.annotations.Contract;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +35,8 @@ public class Utils {
 
 
     @SuppressWarnings("unchecked cast")
-    public static List<TeamDto> teamParser(String fileName) {
-        List<TeamDto> teamDtoList = new ArrayList<>();
+    public static List<TeamJson> teamParser(String fileName) {
+        List<TeamJson> teamJsonList = new ArrayList<>();
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
 
@@ -46,45 +45,45 @@ public class Utils {
             JSONArray teamsList = (JSONArray) jsonParser.parse(reader);
 
             //Iterate over employee array
-            teamDtoList = (List<TeamDto>) teamsList.stream()
+            teamJsonList = (List<TeamJson>) teamsList.stream()
                     .map(team -> parseTeamDtoObject((JSONObject) team))
                     .collect(Collectors.toList());
 
         } catch (IOException | ParseException e) {
             printMessage(e.getMessage());
         }
-        return teamDtoList;
+        return teamJsonList;
     }
 
     @SuppressWarnings("unchecked cast")
-    private static TeamDto parseTeamDtoObject(JSONObject teamJsonObject) {
-        List<PlayerDto> playerDtoList;
+    private static TeamJson parseTeamDtoObject(JSONObject teamJsonObject) {
+        List<PlayerJson> playerJsonList;
         JSONArray playersList = (JSONArray) teamJsonObject.get("players");
-        playerDtoList = (List<PlayerDto>) playersList.stream()
+        playerJsonList = (List<PlayerJson>) playersList.stream()
                 .map(player -> parsePlayerDtoObject((JSONObject) player))
                 .collect(Collectors.toList());
-        return new TeamDto((String) teamJsonObject.get("name"), playerDtoList);
+        return new TeamJson((String) teamJsonObject.get("name"), playerJsonList);
 
     }
 
     @SuppressWarnings("unchecked cast")
-    private static PlayerDto parsePlayerDtoObject(JSONObject playerJsonObject) {
-        return new PlayerDto((String)
+    private static PlayerJson parsePlayerDtoObject(JSONObject playerJsonObject) {
+        return new PlayerJson((String)
                 playerJsonObject.getOrDefault("name", "Default Name"));
 
     }
 
-    public static List<PlayerDao> mapPlayerDtoListToPlayerDaoList(List<PlayerDto> playerDtoList) {
-        List<PlayerDao> playerDaoList = new ArrayList<>();
+    public static List<PlayerModel> mapPlayerDtoListToPlayerDaoList(List<PlayerJson> playerJsonList) {
+        List<PlayerModel> playerModelList = new ArrayList<>();
 
-//        playerDtoList.forEach(playerDto ->
-// playerDaoList.add(new PlayerDao.Builder().playerName(playerDto.getName()).build()));
-        IntStream.range(0, playerDtoList.size()).forEach(index ->
-                playerDaoList.add(new PlayerDao.Builder(index)
-                        .playerName(playerDtoList.get(index).getName())
+//        playerJsonList.forEach(playerDto ->
+// playerModelList.add(new PlayerModel.Builder().playerName(playerDto.getName()).build()));
+        IntStream.range(0, playerJsonList.size()).forEach(index ->
+                playerModelList.add(new PlayerModel.Builder(index)
+                        .playerName(playerJsonList.get(index).getName())
                         .build()
                 ));
 
-        return playerDaoList;
+        return playerModelList;
     }
 }

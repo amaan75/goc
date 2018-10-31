@@ -1,12 +1,12 @@
-package io.github.amaan75.dto;
+package io.github.amaan75.jsonholder;
 
 /**
  * Class used to hold the parsed JSON data.
  */
-public class PlayerDto {
+public class PlayerJson {
     private String name;
 
-    public PlayerDto(String name) {
+    public PlayerJson(String name) {
         this.name = name;
     }
 
@@ -16,7 +16,7 @@ public class PlayerDto {
 
     @Override
     public String toString() {
-        return "PlayerDto{" +
+        return "PlayerJson{" +
                 "name='" + name + '\'' +
                 '}';
     }

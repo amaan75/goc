@@ -1,4 +1,4 @@
-package io.github.amaan75.dao;
+package io.github.amaan75.model;
 
 /**
  * This Class maintains the score/state of the team inside a match
@@ -12,9 +12,9 @@ public class TeamScore {
     // entire team out or not.
     private boolean teamOut;
     // this is a reference to the team it is associated with
-    private TeamDao team;
+    private TeamModel team;
 
-    TeamScore(TeamDao team) {
+    TeamScore(TeamModel team) {
         teamRuns = 0;
         ballsUsed = 0;
         wicketsFallen = 0;
@@ -64,7 +64,7 @@ public class TeamScore {
         teamOut = true;
     }
 
-    public TeamDao getTeam() {
+    public TeamModel getTeam() {
         return team;
     }
 
