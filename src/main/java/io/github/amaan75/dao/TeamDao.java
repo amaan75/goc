@@ -17,9 +17,6 @@ public class TeamDao {
     // This is the list of players in this team.
     private List<PlayerDao> playerList;
 
-    //variable to hold the status of the
-    // entire team out or not.
-    private boolean teamOut = false;
 
 //    //this is the currentPlayer Number which got out.
 //    private short currentPlayer = 0;
@@ -39,9 +36,11 @@ public class TeamDao {
     }
 
 
-//    public int getCurrentPlayer() {
-//        return currentPlayer;
-//    }
+    public int getCurrentPlayer() {
+        if (checkTeamReadyForPlay())
+            return teamScore.getWicketsFallen();
+        return -1;
+    }
 
     //there can only be two teams at any moment in a match
     public TeamDao(String teamName) {
@@ -98,14 +97,17 @@ public class TeamDao {
      */
     private boolean checkTeamReadyForPlay() {
         if (teamScore == null) {
-            throw new AssertionError("Team is not ready for play yet, call finaliseTeamForPlay()," +
+            throw new NullPointerException("Team is not ready for play yet, call finaliseTeamForPlay()," +
                     "to get it ready");
         }
         return true;
     }
 
+
     public boolean isTeamOut() {
-        return teamOut;
+        if (checkTeamReadyForPlay())
+            return teamScore.isTeamOut();
+        return false;
     }
 
     public int getRuns() {
@@ -116,7 +118,8 @@ public class TeamDao {
     }
 
     public void setTeamOutToTrue() {
-        teamOut = true;
+        if (checkTeamReadyForPlay())
+            teamScore.setTeamOutToTrue();
     }
 
     public String getTeamName() {
@@ -144,7 +147,12 @@ public class TeamDao {
 //        return null;
 //    }
 
-
+    public int getPlayerRemainingCount() {
+        if (checkTeamReadyForPlay())
+            return teamScore.getPlayerRemainingCount();
+        //should be unreachable
+        return -1;
+    }
 
     public void increaseBallUsedCount() {
         if (checkTeamReadyForPlay())

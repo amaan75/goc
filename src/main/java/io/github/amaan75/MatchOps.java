@@ -70,11 +70,11 @@ class MatchOps {
     }
 
 
-    static void startInning(@NotNull TeamDao team, int teamRuns) {
+    static void startInning(@NotNull TeamDao team, int teamRuns, ScoreBoard scoreBoard) {
         if (teamRuns < 0)
-            playInning(team);
+            playInning(team, scoreBoard);
         else
-            playInning(team, teamRuns + 1);
+            playInning(team, teamRuns + 1, scoreBoard);
     }
 
 
@@ -82,11 +82,10 @@ class MatchOps {
      * This method is the implementation for FirstInning, and takes only two parameters because
      * we don't have any target for the first Innings
      *
-     * @param team   this method is the implementation for the first Inning.
-     * @param inning the inning instance that is currently going on.
+     * @param team this method is the implementation for the first Inning.
      */
-    static void playInning(TeamDao team) {
-        playInning(team, Integer.MAX_VALUE);
+    static void playInning(TeamDao team, ScoreBoard scoreBoard) {
+        playInning(team, Integer.MAX_VALUE, scoreBoard);
     }
 
     /**
@@ -96,7 +95,7 @@ class MatchOps {
      * @param team       this is the team that currently batting.
      * @param targetRuns these are the target runs, that the current batting team has to beat.
      */
-    static void playInning(TeamDao team, int targetRuns) {
+    static void playInning(TeamDao team, int targetRuns, ScoreBoard scoreBoard) {
         while (!team.isTeamOut() &&
                 team.getBallsUsed() < TOTAL_BALLS &&
                 team.getRuns() < targetRuns) {
@@ -104,14 +103,18 @@ class MatchOps {
             //0-6 or 7 for bold
             int ballResult = MatchOps.playBall();
             if (ballResult <= 6) {
-                team.increaseBallUsedCount();
                 team.addRun(ballResult);
+                Utils.printMessage("BALL RUN:" + ballResult);
             } else {
                 MatchOps.declareAndSetPlayerOut(team);
                 team.callNextPlayer();
                 MatchOps.checkAndSetTeamOut(team);
+            Utils.printMessage("BALL RUN: OUT");
             }
+            team.increaseBallUsedCount();
+            Utils.printMessage(scoreBoard.computeAndReturnFormattedScore(team.getTeamName()));
         }
+
 
     }
 
@@ -122,7 +125,7 @@ class MatchOps {
      * @param team {@link TeamDao} takes a team instance
      */
     private static void checkAndSetTeamOut(TeamDao team) {
-        if (team. == LAST_PLAYER) {
+        if (team.getCurrentPlayer() == LAST_PLAYER) {
             team.setTeamOutToTrue();
             Utils.printMessage(String.format("%s ALL OUT!", team.getTeamName()));
         }
@@ -145,26 +148,21 @@ class MatchOps {
     /**
      * This method takes a team and innings and then reports the number of balls taken by a team
      *
-     * @param team   {@link TeamDao} the team that just finished innings
-     * @param inning {@link Innings} the innings that just ended
+     * @param team {@link TeamDao} the team that just finished innings
      */
-    public static void reportOversAndBalls(TeamDao team, Innings inning) {
-        int overs = inning.getCurrentBall() / 6;
-        int numberOfOverBalls = inning.getCurrentBall() - (overs * 6);
+    public static void reportOversAndBalls(TeamDao team) {
+        int overs = team.getBallsUsed() / 6;
+        int numberOfOverBalls = team.getBallsUsed() - (overs * 6);
         Utils.printMessage(String.format("%s used %d overs and %d balls", team.getTeamName(),
                 overs, numberOfOverBalls));
     }
 
 
-    public static void endInningAndReportStats(TeamDao team, Innings inning) {
-        MatchOps.reportOversAndBalls(team, inning);
+    public static void endInningAndReportStats(TeamDao team) {
+        MatchOps.reportOversAndBalls(team);
         Utils.printMessage(String.format("%s made %d runs",
                 team.getTeamName(), team.getRuns()));
     }
 
-
-    static void showScore(Match match) {
-
-    }
 
 }

@@ -1,16 +1,24 @@
 package io.github.amaan75.dao;
 
+/**
+ * This Class maintains the score/state of the team inside a match
+ */
 public class TeamScore {
     private static final int MAX_WICKETS = 10;
     private int teamRuns;
     private int ballsUsed;
     private int wicketsFallen;
+    //variable to hold the status of the
+    // entire team out or not.
+    private boolean teamOut;
+    // this is a reference to the team it is associated with
     private TeamDao team;
 
     TeamScore(TeamDao team) {
         teamRuns = 0;
         ballsUsed = 0;
         wicketsFallen = 0;
+        teamOut = false;
         this.team = team;
     }
 
@@ -26,7 +34,6 @@ public class TeamScore {
         teamRuns += run;
     }
 
-
     public void wicketDown() {
         wicketsFallen++;
     }
@@ -41,6 +48,14 @@ public class TeamScore {
 
     public int getWicketsFallen() {
         return wicketsFallen;
+    }
+
+    public boolean isTeamOut() {
+        return teamOut;
+    }
+
+    public void setTeamOutToTrue() {
+        teamOut = true;
     }
 
     public TeamDao getTeam() {

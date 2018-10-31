@@ -1,7 +1,6 @@
 package io.github.amaan75;
 
 import io.github.amaan75.dao.TeamDao;
-import io.github.amaan75.dto.TeamDto;
 import io.github.amaan75.utils.Utils;
 
 import java.util.ArrayList;
@@ -12,8 +11,7 @@ import java.util.List;
  */
 public class GameController {
 
-    private String team1Name;
-    private String team2Name;
+
     private int matchCounter = 1;
     private int totalMatchLimit;
     private List<TeamDao> teamDaoList;
@@ -24,11 +22,6 @@ public class GameController {
         totalMatchLimit = numberOfMatches;
     }
 
-    public GameController(String team1Name, String team2Name, int numberOfMatches) {
-        this.team1Name = team1Name;
-        this.team2Name = team2Name;
-        totalMatchLimit = numberOfMatches;
-    }
 
     /**
      * The playGame method is used to play the game between  2 teams a specified number
@@ -36,12 +29,8 @@ public class GameController {
      */
     void playGame() {
         for (int i = 0; i < totalMatchLimit; i++) {
-            TeamDao team1 = new TeamDao(this.team1Name);
-            TeamDao team2 = new TeamDao(this.team2Name);
-            Match match = new Match(team1, team2);
+            Match match = new Match(teamDaoList.get(0), teamDaoList.get(1));
             match.playGame(matchCounter++);
-            ScoreBoard scoreBoard = new ScoreBoard(match);
-            scoreBoard.showScore();
         }
     }
 
@@ -51,8 +40,6 @@ public class GameController {
         Utils.teamParser(fileName)
                 .forEach(teamDto -> teamDaoList.add(TeamDao.from(teamDto)));
         return teamDaoList;
-
     }
-
 
 }
