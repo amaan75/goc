@@ -1,6 +1,6 @@
 package io.github.amaan75;
 
-import io.github.amaan75.dao.TeamDao;
+import io.github.amaan75.model.TeamModel;
 import io.github.amaan75.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +34,7 @@ class MatchOps {
         return rnd.nextInt(8);
     }
 
-    static void declareAndSetPlayerOut(@NotNull TeamDao team) {
+    static void declareAndSetPlayerOut(@NotNull TeamModel team) {
         int currPlayerIndex = team.getCurrentPlayer();
         team.getCurrentPlayerFromList(currPlayerIndex).setPlayerOut();
         Utils.printMessage(String.format("PLAYER %s IS OUT!",
@@ -49,7 +49,7 @@ class MatchOps {
      * @param team1 1st out of the two playing teams
      * @param team2 2nd out of the two playing teams
      */
-    static void computeAndDeclareWinner(@NotNull TeamDao team1, @NotNull TeamDao team2) {
+    static void computeAndDeclareWinner(@NotNull TeamModel team1, @NotNull TeamModel team2) {
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
         if (run1 > run2)
@@ -73,7 +73,7 @@ class MatchOps {
     }
 
 
-    static void startInning(@NotNull TeamDao team, int teamRuns, ScoreBoard scoreBoard) {
+    static void startInning(@NotNull TeamModel team, int teamRuns, ScoreBoard scoreBoard) {
         if (teamRuns < 0)
             playInning(team, scoreBoard);
         else
@@ -87,7 +87,7 @@ class MatchOps {
      *
      * @param team this method is the implementation for the first Inning.
      */
-    static void playInning(TeamDao team, ScoreBoard scoreBoard) {
+    static void playInning(TeamModel team, ScoreBoard scoreBoard) {
         playInning(team, Integer.MAX_VALUE, scoreBoard);
     }
 
@@ -98,7 +98,7 @@ class MatchOps {
      * @param team       this is the team that currently batting.
      * @param targetRuns these are the target runs, that the current batting team has to beat.
      */
-    static void playInning(TeamDao team, int targetRuns, ScoreBoard scoreBoard) {
+    static void playInning(TeamModel team, int targetRuns, ScoreBoard scoreBoard) {
         while (!team.isTeamOut() &&
                 team.getBallsUsed() < TOTAL_BALLS &&
                 team.getRuns() < targetRuns) {
@@ -123,9 +123,9 @@ class MatchOps {
      * This method checks if the the last player is out and if so,
      * it declares the team out and sets it to true
      *
-     * @param team {@link TeamDao} takes a team instance
+     * @param team {@link TeamModel} takes a team instance
      */
-    private static void checkAndSetTeamOut(TeamDao team) {
+    private static void checkAndSetTeamOut(TeamModel team) {
         if (team.getCurrentPlayer() == LAST_PLAYER) {
             team.setTeamOutToTrue();
             Utils.printMessage(String.format("%s ALL OUT!", team.getTeamName()));
@@ -149,9 +149,9 @@ class MatchOps {
     /**
      * This method takes a team and innings and then reports the number of balls taken by a team
      *
-     * @param team {@link TeamDao} the team that just finished innings
+     * @param team {@link TeamModel} the team that just finished innings
      */
-    public static void reportOversAndBalls(TeamDao team) {
+    public static void reportOversAndBalls(TeamModel team) {
         int overs = team.getBallsUsed() / 6;
         int numberOfOverBalls = team.getBallsUsed() - (overs * 6);
         Utils.printMessage(String.format("%s used %d overs and %d balls", team.getTeamName(),
@@ -159,7 +159,7 @@ class MatchOps {
     }
 
 
-    public static void endInningAndReportStats(TeamDao team) {
+    public static void endInningAndReportStats(TeamModel team) {
         MatchOps.reportOversAndBalls(team);
         Utils.printMessage(String.format("%s made %d runs",
                 team.getTeamName(), team.getRuns()));
