@@ -2,6 +2,9 @@ package io.github.amaan75.dto;
 
 import java.util.List;
 
+/**
+ * Class used to hold the parsed JSON data.
+ */
 public class TeamDto {
     private String name;
 

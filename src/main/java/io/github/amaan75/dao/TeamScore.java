@@ -30,10 +30,16 @@ public class TeamScore {
         return MAX_WICKETS - wicketsFallen;
     }
 
+    /**
+     * adds runs to the score of the team
+     *
+     * @param run int runs to add to the teamRuns
+     */
     void addRuns(int run) {
         teamRuns += run;
     }
 
+    //increases the wicket fallen count when a wicket goes down
     public void wicketDown() {
         wicketsFallen++;
     }

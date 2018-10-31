@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Class with only static methods which represent the operations in a single match
+ */
 class MatchOps {
 
     //this field will hold the index of last player number who will bat,
@@ -104,12 +107,10 @@ class MatchOps {
             int ballResult = MatchOps.playBall();
             if (ballResult <= 6) {
                 team.addRun(ballResult);
-                Utils.printMessage("BALL RUN:" + ballResult);
             } else {
                 MatchOps.declareAndSetPlayerOut(team);
                 team.callNextPlayer();
                 MatchOps.checkAndSetTeamOut(team);
-            Utils.printMessage("BALL RUN: OUT");
             }
             team.increaseBallUsedCount();
             Utils.printMessage(scoreBoard.computeAndReturnFormattedScore(team.getTeamName()));

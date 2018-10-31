@@ -2,6 +2,9 @@ package io.github.amaan75;
 
 import io.github.amaan75.dao.TeamDao;
 
+/**
+ * This class is responsible for Handling a single match between two teams
+ */
 public class Match {
 
 
