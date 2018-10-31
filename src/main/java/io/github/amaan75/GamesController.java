@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Games controller controls all the Matches in match.
+ * The Games controller controls all the Matches in the game.
  */
 public class GamesController implements MatchLifeCycleCallBackListener {
 
@@ -30,9 +30,12 @@ public class GamesController implements MatchLifeCycleCallBackListener {
      * of times
      */
     void playGame() {
-        for (matchCounter = 1; matchCounter < totalMatchLimit; matchCounter++) {
+        for (matchCounter = 1; matchCounter <= totalMatchLimit; matchCounter++) {
             Match match = new Match(teamModelList.get(0), teamModelList.get(1));
-            match.registerCallBackListener(this, new ScoreBoard(teamModelList.get(0), teamModelList.get(0)));
+            match.registerCallBackListener(List.of(
+                    this,
+                    new ScoreBoard(teamModelList.get(0), teamModelList.get(0))
+            ));
             match.startGame();
         }
     }
@@ -49,9 +52,8 @@ public class GamesController implements MatchLifeCycleCallBackListener {
     }
 
     @Override
-    public void endGameCallback(TeamModel teamModel) {
+    public void endGameCallback(TeamModel team1, TeamModel team2) {
         MatchUtils.printEndMatchMessage(matchCounter);
-
     }
 
 

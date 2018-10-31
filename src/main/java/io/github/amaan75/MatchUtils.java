@@ -49,23 +49,18 @@ public class MatchUtils {
      * @param team1 1st out of the two playing teams
      * @param team2 2nd out of the two playing teams
      */
-    public static TeamModel computeAndDeclareWinner(@NotNull TeamModel team1, @NotNull TeamModel team2) {
-        TeamModel team = null;
+    public static void computeAndDeclareWinner(@NotNull TeamModel team1, @NotNull TeamModel team2) {
+
         int run1 = team1.getRuns();
         int run2 = team2.getRuns();
         if (run1 > run2) {
             Utils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
-            team = team1;
         } else if (run1 == run2) {
             Utils.printMessage("This match was a draw");
-
         } else {
             Utils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
-            team = team2;
         }
 
-
-        return team;
     }
 
     /**
@@ -80,11 +75,11 @@ public class MatchUtils {
     }
 
 
-    public static void startInning(@NotNull TeamModel team, int teamRuns, ScoreBoard scoreBoard) {
+    public static void startInning(@NotNull TeamModel team, int teamRuns) {
         if (teamRuns < 0)
-            playInning(team, scoreBoard);
+            playInning(team);
         else
-            playInning(team, teamRuns + 1, scoreBoard);
+            playInning(team, teamRuns + 1);
     }
 
 
@@ -94,8 +89,8 @@ public class MatchUtils {
      *
      * @param team this method is the implementation for the first Inning.
      */
-    static void playInning(TeamModel team, ScoreBoard scoreBoard) {
-        playInning(team, Integer.MAX_VALUE, scoreBoard);
+    static void playInning(TeamModel team) {
+        playInning(team, Integer.MAX_VALUE);
     }
 
     /**
@@ -105,7 +100,7 @@ public class MatchUtils {
      * @param team       this is the team that currently batting.
      * @param targetRuns these are the target runs, that the current batting team has to beat.
      */
-    static void playInning(TeamModel team, int targetRuns, ScoreBoard scoreBoard) {
+    static void playInning(TeamModel team, int targetRuns) {
         while (!team.isTeamOut() &&
                 team.getBallsUsed() < TOTAL_BALLS &&
                 team.getRuns() < targetRuns) {
@@ -120,7 +115,6 @@ public class MatchUtils {
                 MatchUtils.checkAndSetTeamOut(team);
             }
             team.increaseBallUsedCount();
-            Utils.printMessage(scoreBoard.computeAndReturnFormattedScore(team.getTeamName()));
         }
 
 

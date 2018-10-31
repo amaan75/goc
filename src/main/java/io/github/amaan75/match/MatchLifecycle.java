@@ -1,6 +1,5 @@
 package io.github.amaan75.match;
 
-import io.github.amaan75.GamesController;
 import io.github.amaan75.model.TeamModel;
 
 /**
@@ -12,5 +11,6 @@ public interface MatchLifecycle {
 
     void playGame();
 
-    void endGame(TeamModel team);
+    void endGame(TeamModel team1, TeamModel team2);
+
 }

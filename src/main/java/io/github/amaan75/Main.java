@@ -1,6 +1,6 @@
 package io.github.amaan75;
 
-public class CricketGame {
+public class Main {
 
     public static void main(String[] args) {
         int numberOfMatches = 2;

@@ -13,5 +13,5 @@ public interface MatchLifeCycleCallBackListener {
 
     void playGameCallback();
 
-    void endGameCallback(TeamModel teamModel);
+    void endGameCallback(TeamModel team1, TeamModel team2);
 }

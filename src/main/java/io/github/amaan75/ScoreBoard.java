@@ -48,8 +48,8 @@ public class ScoreBoard implements MatchLifeCycleCallBackListener {
     }
 
     @Override
-    public void endGameCallback(TeamModel teamModel) {
-
+    public void endGameCallback(TeamModel team1, TeamModel team2) {
+        MatchUtils.computeAndDeclareWinner(team1, team2);
     }
 
 
