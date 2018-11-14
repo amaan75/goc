@@ -1,6 +1,6 @@
 package io.github.amaan75.utils;
 
-import io.github.amaan75.model.PlayerModel;
+import io.github.amaan75.model.Player;
 import io.github.amaan75.jsonholder.PlayerJson;
 import io.github.amaan75.jsonholder.TeamJson;
 import org.jetbrains.annotations.Contract;
@@ -69,21 +69,22 @@ public class Utils {
     @SuppressWarnings("unchecked cast")
     private static PlayerJson parsePlayerDtoObject(JSONObject playerJsonObject) {
         return new PlayerJson((String)
-                playerJsonObject.getOrDefault("name", "Default Name"));
+                playerJsonObject.getOrDefault("name", "Default Name"),
+                (String) playerJsonObject.getOrDefault("role", "BAT"));
 
     }
 
-    public static List<PlayerModel> mapPlayerDtoListToPlayerDaoList(List<PlayerJson> playerJsonList) {
-        List<PlayerModel> playerModelList = new ArrayList<>();
+    public static List<Player> mapPlayerDtoListToPlayerDaoList(List<PlayerJson> playerJsonList) {
+        List<Player> playerList = new ArrayList<>();
 
 //        playerJsonList.forEach(playerDto ->
-// playerModelList.add(new PlayerModel.Builder().playerName(playerDto.getName()).build()));
+// playerList.add(new Player.Builder().playerName(playerDto.getName()).build()));
         IntStream.range(0, playerJsonList.size()).forEach(index ->
-                playerModelList.add(new PlayerModel.Builder(index)
+                playerList.add(new Player.Builder(index)
                         .playerName(playerJsonList.get(index).getName())
                         .build()
                 ));
 
-        return playerModelList;
+        return playerList;
     }
 }

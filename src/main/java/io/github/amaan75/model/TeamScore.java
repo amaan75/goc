@@ -1,25 +1,23 @@
 package io.github.amaan75.model;
 
 /**
- * This Class maintains the score/state of the team inside a match
+ * This Class maintains the score/state of the team inside a Match
  */
 public class TeamScore {
     private static final int MAX_WICKETS = 10;
+
+
     private int teamRuns;
     private int ballsUsed;
     private int wicketsFallen;
-    //variable to hold the status of the
-    // entire team out or not.
     private boolean teamOut;
-    // this is a reference to the team it is associated with
-    private TeamModel team;
 
-    TeamScore(TeamModel team) {
+
+    public TeamScore() {
         teamRuns = 0;
         ballsUsed = 0;
         wicketsFallen = 0;
         teamOut = false;
-        this.team = team;
     }
 
 
@@ -35,7 +33,7 @@ public class TeamScore {
      *
      * @param run int runs to add to the teamRuns
      */
-    void addRuns(int run) {
+    public void addRuns(int run) {
         teamRuns += run;
     }
 
@@ -64,12 +62,12 @@ public class TeamScore {
         teamOut = true;
     }
 
-    public TeamModel getTeam() {
-        return team;
-    }
-
-    void increaseBallUsedCount() {
+    public void increaseBallUsedCount() {
         ballsUsed++;
 
     }
+
 }
+
+
+

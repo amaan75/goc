@@ -1,22 +1,23 @@
 package io.github.amaan75;
 
-import io.github.amaan75.match.Match;
-import io.github.amaan75.match.MatchLifeCycleCallBackListener;
-import io.github.amaan75.model.TeamModel;
+import io.github.amaan75.match.CricketMatch;
+import io.github.amaan75.match.MatchCallBackListener;
+import io.github.amaan75.model.Team;
 import io.github.amaan75.utils.Utils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The Games controller controls all the Matches in the game.
  */
-public class GamesController implements MatchLifeCycleCallBackListener {
+public class GamesController implements MatchCallBackListener {
 
 
     private int matchCounter;
     private int totalMatchLimit;
-    private List<TeamModel> teamModelList;
+    private List<Team> teamModelList;
 
 
     public GamesController(int numberOfMatches, String fileName) {
@@ -29,38 +30,37 @@ public class GamesController implements MatchLifeCycleCallBackListener {
      * The playGame method is used to play the game between  2 teams a specified number
      * of times
      */
-    void playGame() {
+    public void playGame() {
         for (matchCounter = 1; matchCounter <= totalMatchLimit; matchCounter++) {
-            Match match = new Match(teamModelList.get(0), teamModelList.get(1));
+            ScoreBoard scoreBoard = new ScoreBoard();
+            CricketMatch match = new CricketMatch(teamModelList.get(0), teamModelList.get(1));
             match.registerCallBackListener(List.of(
                     this,
-                    new ScoreBoard(teamModelList.get(0), teamModelList.get(0))
+                    scoreBoard
             ));
+            match.registerBallEventListeners(scoreBoard);
+            match.setScoreBoard(scoreBoard);
             match.startGame();
         }
     }
 
     @Override
-    public void startGameCallback() {
-        MatchUtils.printStartMatchMessage(matchCounter);
-
+    public void matchStarted(LocalDateTime now, Team team1, Team team2) {
+        Utils.printMessage(
+                String.format("The %d match was started %n at time %s between teams %s and %s",
+                        matchCounter, now, team1, team2));
     }
 
     @Override
-    public void playGameCallback() {
-
-    }
-
-    @Override
-    public void endGameCallback(TeamModel team1, TeamModel team2) {
+    public void matchFinished(Team team1, Team team2) {
         MatchUtils.printEndMatchMessage(matchCounter);
     }
 
 
-    private List<TeamModel> initTeams(String fileName) {
-        List<TeamModel> teamModelList = new ArrayList<>();
+    private List<Team> initTeams(String fileName) {
+        List<Team> teamModelList = new ArrayList<>();
         Utils.teamParser(fileName)
-                .forEach(teamDto -> teamModelList.add(TeamModel.from(teamDto)));
+                .forEach(teamDto -> teamModelList.add(Team.from(teamDto)));
         return teamModelList;
     }
 

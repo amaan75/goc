@@ -3,37 +3,48 @@
     "name": "Australia",
     "players": [
       {
-        "name": "player1Aus"
+        "name": "player1Aus",
+        "role": "BAT"
       },
       {
-        "name": "player2Aus"
+        "name": "player2Aus",
+        "role": "BAT"
       },
       {
-        "name": "player3Aus"
+        "name": "player3Aus",
+        "role": "BAT"
       },
       {
-        "name": "player4aus"
+        "name": "player4aus",
+        "role": "BAT"
       },
       {
-        "name": "player5aus"
+        "name": "player5aus",
+        "role": "BAT"
       },
       {
-        "name": "player6aus"
+        "name": "player6aus",
+        "role": "BOWL"
       },
       {
-        "name": "player7aus"
+        "name": "player7aus",
+        "role": "BOWL"
       },
       {
-        "name": "player8aus"
+        "name": "player8aus",
+        "role": "BOWL"
       },
       {
-        "name": "player9aus"
+        "name": "player9aus",
+        "role": "BOWL"
       },
       {
-        "name": "player10aus"
+        "name": "player10aus",
+        "role": "BOWL"
       },
       {
-        "name": "player11aus"
+        "name": "player11aus",
+        "role": "BOWL"
       }
     ]
   },
@@ -41,37 +52,48 @@
     "name": "India",
     "players": [
       {
-        "name": "player1Ind"
+        "name": "player1Ind",
+        "role": "BAT"
       },
       {
-        "name": "player2Ind"
+        "name": "player2Ind",
+        "role": "BAT"
       },
       {
-        "name": "player3Ind"
+        "name": "player3Ind",
+        "role": "BAT"
       },
       {
-        "name": "player4Ind"
+        "name": "player4Ind",
+        "role": "BAT"
       },
       {
-        "name": "player5Ind"
+        "name": "player5Ind",
+        "role": "BAT"
       },
       {
-        "name": "player6Ind"
+        "name": "player6Ind",
+        "role": "BAT"
       },
       {
-        "name": "player7Ind"
+        "name": "player7Ind",
+        "role": "BOWL"
       },
       {
-        "name": "player8Ind"
+        "name": "player8Ind",
+        "role": "BOWL"
       },
       {
-        "name": "player9Ind"
+        "name": "player9Ind",
+        "role": "BOWL"
       },
       {
-        "name": "player10Ind"
+        "name": "player10Ind",
+        "role": "BOWL"
       },
       {
-        "name": "player11Ind"
+        "name": "player11Ind",
+        "role": "BOWL"
       }
     ]
   },
@@ -79,37 +101,48 @@
     "name": "Sri Lanka",
     "players": [
       {
-        "name": "player1Sri"
+        "name": "player1Sri",
+        "role": "BAT"
       },
       {
-        "name": "player2Sri"
+        "name": "player2Sri",
+        "role": "BAT"
       },
       {
-        "name": "player3Sri"
+        "name": "player3Sri",
+        "role": "BAT"
       },
       {
-        "name": "player4Sri"
+        "name": "player4Sri",
+        "role": "BAT"
       },
       {
-        "name": "player5Sri"
+        "name": "player5Sri",
+        "role": "BAT"
       },
       {
-        "name": "player6Sri"
+        "name": "player6Sri",
+        "role": "BOWL"
       },
       {
-        "name": "player7Sri"
+        "name": "player7Sri",
+        "role": "BOWL"
       },
       {
-        "name": "player8Sri"
+        "name": "player8Sri",
+        "role": "BOWL"
       },
       {
-        "name": "player9Sri"
+        "name": "player9Sri",
+        "role": "BOWL"
       },
       {
-        "name": "player10Sri"
+        "name": "player10Sri",
+        "role": "BOWL"
       },
       {
-        "name": "player11Sri"
+        "name": "player11Sri",
+        "role": "BOWL"
       }
     ]
   }

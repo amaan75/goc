@@ -1,56 +1,50 @@
 package io.github.amaan75;
 
-import io.github.amaan75.match.MatchLifeCycleCallBackListener;
-import io.github.amaan75.model.TeamModel;
+import io.github.amaan75.match.BallEventListener;
+import io.github.amaan75.match.MatchCallBackListener;
+import io.github.amaan75.model.Team;
+import io.github.amaan75.model.TeamScore;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
- * Contains the instance of two teams that are currently in match, and can then print their scores
+ * Contains the instance of two teams that are currently in Match, and can then print their scores
  * by getting the info from them
  */
-public class ScoreBoard implements MatchLifeCycleCallBackListener {
-    private TeamModel team1;
-    private TeamModel team2;
-
-
-    public ScoreBoard(TeamModel team1, TeamModel team2) {
-        this.team1 = team1;
-        this.team2 = team2;
+public class ScoreBoard implements MatchCallBackListener, BallEventListener {
+    public HashMap<Team, TeamScore> getTeamScoreHashMap() {
+        return teamScoreHashMap;
     }
 
+    private HashMap<Team, TeamScore> teamScoreHashMap;
 
-    /**
-     * This method returns a formatted String which represents the current score of the team in match
-     *
-     * @param teamName the team name takes the name of the two teams amongst the match for which it has to show the score.
-     * @return String which represents the score of the team.
-     */
-    String computeAndReturnFormattedScore(String teamName) {
-        if (Objects.equals(team1.getTeamName(), teamName))
-            return String.format("%s has %d runs in %d balls " +
-                            " and %d wicket ", team1.getTeamName(),
-                    team1.getRuns(), team1.getBallsUsed(), team1.getCurrentPlayer());
-        else
-            return String.format("%s has %d runs in %d balls " +
-                            "and %d wickets ", team2.getTeamName(),
-                    team2.getRuns(), team2.getBallsUsed(), team2.getCurrentPlayer());
-    }
 
     @Override
-    public void startGameCallback() {
+    public void matchStarted(LocalDateTime now, Team team1, Team team2) {
+        teamScoreHashMap = new HashMap<>();
+        teamScoreHashMap.put(team1, new TeamScore());
+        teamScoreHashMap.put(team2, new TeamScore());
+    }
+
+
+    @Override
+    public void matchFinished(Team team1, Team team2) {
 
     }
 
     @Override
-    public void playGameCallback() {
+    public void ballEvent(int ballResult, Team battingTeam) {
+        TeamScore teamScore = teamScoreHashMap.computeIfAbsent(battingTeam, (unused) -> new TeamScore());
+        if (ballResult <= 6) {
+            teamScore.addRuns(ballResult);
+        } else {
+            MatchUtils.declareAndSetPlayerOut(battingTeam, teamScore);
+            teamScore.wicketDown();
+            MatchUtils.checkAndSetTeamOut(battingTeam, teamScore);
+        }
+        teamScore.increaseBallUsedCount();
+
 
     }
-
-    @Override
-    public void endGameCallback(TeamModel team1, TeamModel team2) {
-        MatchUtils.computeAndDeclareWinner(team1, team2);
-    }
-
-
 }
