@@ -82,6 +82,7 @@ public class Utils {
         IntStream.range(0, playerJsonList.size()).forEach(index ->
                 playerList.add(new Player.Builder(index)
                         .playerName(playerJsonList.get(index).getName())
+                        .playerRole(playerJsonList.get(index).getRole())
                         .build()
                 ));
 

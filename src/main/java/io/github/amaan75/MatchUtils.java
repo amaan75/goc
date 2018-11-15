@@ -1,5 +1,6 @@
 package io.github.amaan75;
 
+import io.github.amaan75.model.PlayerRole;
 import io.github.amaan75.model.Team;
 import io.github.amaan75.model.TeamScore;
 import io.github.amaan75.utils.Utils;
@@ -30,9 +31,18 @@ public class MatchUtils {
     /**
      * @return returns the runs from 0-7 where 7 stands for a wicket
      */
-    public static int playBall() {
+    public static int playBall(PlayerRole playerRole) {
+        int runProb;
+        if (playerRole == PlayerRole.BATSMAN) {
+            //bound is 3 is exclusive
+            runProb = rnd.nextInt(11);
+            if (runProb < 7) {
+                return rnd.nextInt(7);
+            }
+        }
         //bound = 8 because it is exclusive
         return rnd.nextInt(8);
+
     }
 
     static void declareAndSetPlayerOut(@NotNull Team team, @NotNull TeamScore teamScore) {
@@ -42,26 +52,26 @@ public class MatchUtils {
     }
 
 
-//    /**
-//     * This method takes two teams, compares the runs and declares the
-//     * winner
-//     *
-//     * @param team1 1st out of the two playing teams
-//     * @param team2 2nd out of the two playing teams
-//     */
-//    public static void computeAndDeclareWinner(@NotNull Team team1, @NotNull Team team2) {
-//
-//        int run1 = team1.getRuns();
-//        int run2 = team2.getRuns();
-//        if (run1 > run2) {
-//            Utils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
-//        } else if (run1 == run2) {
-//            Utils.printMessage("This Match was a draw");
-//        } else {
-//            Utils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2.getPlayerRemainingCount()));
-//        }
-//
-//    }
+    /**
+     * This method takes two teams, compares the runs and declares the
+     * winner
+     *
+     * @param team1 1st out of the two playing teams
+     * @param team2 2nd out of the two playing teams
+     */
+    public static void computeAndDeclareWinner(@NotNull Team team1, @NotNull Team team2, TeamScore team1Score, TeamScore team2Score) {
+
+        int run1 = team1Score.getTeamRuns();
+        int run2 = team2Score.getTeamRuns();
+        if (run1 > run2) {
+            Utils.printMessage(String.format("%s wins by %d runs", team1.getTeamName(), (run1 - run2)));
+        } else if (run1 == run2) {
+            Utils.printMessage("This Match was a draw");
+        } else {
+            Utils.printMessage(String.format("%s won by %d wickets", team2.getTeamName(), team2Score.getPlayerRemainingCount()));
+        }
+
+    }
 
 
 //

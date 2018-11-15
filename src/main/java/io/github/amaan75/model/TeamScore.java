@@ -13,6 +13,11 @@ public class TeamScore {
     private boolean teamOut;
 
 
+   public int getCurrentPlayerNumber() {
+        return wicketsFallen;
+    }
+
+
     public TeamScore() {
         teamRuns = 0;
         ballsUsed = 0;

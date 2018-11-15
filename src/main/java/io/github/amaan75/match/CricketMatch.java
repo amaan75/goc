@@ -98,8 +98,10 @@ public class CricketMatch implements Match {
     private void playInning(Team team, int targetRuns, TeamScore teamScore) {
         while (!teamScore.isTeamOut() &&
                 teamScore.getBallsUsed() < TOTAL_BALLS &&
-                teamScore.getTeamRuns() < targetRuns) {
-            int ballResult = MatchUtils.playBall();
+                teamScore.getTeamRuns() <= targetRuns) {
+            int ballResult = MatchUtils.playBall(team
+                    .getPlayerFromList(teamScore.getCurrentPlayerNumber())
+                    .getPlayerRole());
             ballEventListenerList.forEach(ballEventListener ->
                     ballEventListener.ballEvent(ballResult, team));
         }

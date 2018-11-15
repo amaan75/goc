@@ -47,8 +47,11 @@ public class GamesController implements MatchCallBackListener {
     @Override
     public void matchStarted(LocalDateTime now, Team team1, Team team2) {
         Utils.printMessage(
-                String.format("The %d match was started %n at time %s between teams %s and %s",
-                        matchCounter, now, team1, team2));
+                String.format("*******************************BEGIN MATCH %d*****************************", matchCounter)
+        );
+        Utils.printMessage(
+                String.format(" match %d began held on %s between teams %s and %s",
+                        matchCounter, now.toLocalDate(), team1.getTeamName(), team2.getTeamName()));
     }
 
     @Override

@@ -7,17 +7,18 @@ import io.github.amaan75.model.TeamScore;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Contains the instance of two teams that are currently in Match, and can then print their scores
  * by getting the info from them
  */
 public class ScoreBoard implements MatchCallBackListener, BallEventListener {
-    public HashMap<Team, TeamScore> getTeamScoreHashMap() {
+    public Map<Team, TeamScore> getTeamScoreHashMap() {
         return teamScoreHashMap;
     }
 
-    private HashMap<Team, TeamScore> teamScoreHashMap;
+    private Map<Team, TeamScore> teamScoreHashMap;
 
 
     @Override
@@ -30,7 +31,9 @@ public class ScoreBoard implements MatchCallBackListener, BallEventListener {
 
     @Override
     public void matchFinished(Team team1, Team team2) {
-
+        MatchUtils.computeAndDeclareWinner(team1, team2,
+                teamScoreHashMap.get(team1),
+                teamScoreHashMap.get(team2));
     }
 
     @Override

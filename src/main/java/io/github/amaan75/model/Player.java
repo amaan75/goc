@@ -24,6 +24,10 @@ public class Player {
         return playerName;
     }
 
+    public PlayerRole getPlayerRole() {
+        return playerRole;
+    }
+
 
     //Builder class is the Builder Pattern from Effective Java
     //used to instantiate the player class
